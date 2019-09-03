@@ -33,12 +33,23 @@
   // });
   
   // Example 5:
-  // Pass a "this" value
+  // Should be able to pass an optional "this" value
+  // filter([1,2,3], function(number, index, originalArray){
+  //  console.log(this.message);
+  // }, {message: "This is accessible"});
 
   // Example 6:
-  // Has to return filtered values
+  // Has to return an array
+  // filter([], function(){}).Array(isArray) === true;
 
   // Example 7:
+  // Has to return filtered values
+  // filter([1,2,3], function(number, index, originalArray){
+  //    return number > 1;
+  // });
+  // > [2,3]
+
+  // Example 8:
   // Check that original array wasn't altered
 
   // You can use fail(); at the beginning to fail the tests at the beginning.

@@ -10,7 +10,122 @@
   <script src="../tinytest.js"></script>
   <script>
   // Here goes all the code for map method
+  // Example 1: Callback should run 3 times.
+  // map([1,2,3], function(){
+  //  console.log('hi'); 
+  // });
+
+  // Example 2: Callback has access to ith element.
+  // map([1,2,3], function(number){
+  //  console.log(number); 
+  // });
+
+  // Example 3: Callback has access to index
+  // The index of the current element being processed in the array
+  // map([1,2,3], function(number, index){
+  //  console.log(index);
+  // });
+
+  // Example 4: Callback has access to original array
+  // The index of the current element being processed in the array
+  // map([1,2,3], function(number, index, originalArray){
+  //  console.log(originalArray);
+  // });
   
+  // Example 5:
+  // Should be able to pass an optional "this" value
+  // map([1,2,3], function(number, index, originalArray){
+  //  console.log(this.message);
+  // }, {message: "This is accessible"});
+
+  // Example 6: Should return a different array
+  // let originalArray = [1,2,3];
+  // let mappedArray = map(originalArray, function(){ });
+  // originalArray !== mappedArray
+
+  // Example 7: Should return an array
+  // map([], function(){}).Array(isArray) === true;
+
+  // Example 8: Should return a modified array
+  // let originalArray = [1,2,3];
+  // let mappedArray = map(originalArray, function(element){
+  //  element * 2; 
+  // });
+  // > [2,4,6]
+
+  // Example 8:
+  // Check that original array wasn't altered
+
+  // You can use fail(); at the beginning to fail the tests at the beginning.
+  function map(array, callback, optionalThisObject){
+    if (optionalThisObject){
+      callback = callback.bind(optionalThisObject);
+    }
+    let filteredArray = [];
+    for (var i = 0; i < array.length; i++){
+      if (callback(array[i], i, array)){
+        filteredArray.push(array[i])
+      };
+    }
+    return filteredArray
+  }
+
+  tests({
+    'it should run the callback function array.length times': function() {
+      fail()
+      // var timesTheCallbackHasRun = 0;
+      // filter([1,2,3], function(){
+      //   timesTheCallbackHasRun++;
+      // });
+      // eq(timesTheCallbackHasRun, 3);
+    },
+    'it should pass in the i`th` element as the first argument to the callback': function() {
+      fail()
+      // filter([1], function(number){
+      // eq(number ,1);
+      // });
+    },
+    'it should pass in position i (ith position) as the second argument to the callback': function(){
+      fail()
+      // filter([1], function(number, index){
+      //   eq(index, 0);
+      // });
+    },
+    'it should pass the original array as the third argument of the callback': function(){
+      fail()
+      // let testArray = [1, 2, 3];
+      // filter(testArray, function(number, index, originalArray){
+      //   eq(originalArray, testArray);
+      // });
+    },
+    'It should accept an optional this object': function(){
+      fail()
+      // filter([1], function(){
+      //   eq(this.description, 'I should be accessible in the callback')
+      // }, {description: 'I should be accessible in the callback'})
+    },
+    'It should return an array': function(){
+      fail()
+      // let filteredArray = filter([], function(number){});
+      // eq(Array.isArray(filteredArray), true);
+    },
+    'It should return a new array with filtered information that returned true in the callback': function(){
+      fail()
+      // let filteredArray = filter([1,2,3,4], function(number){
+      //   return number > 3;
+      // });
+      // eq(Number(filteredArray), 4);
+    },
+    'It should\'nt alter the original array': function(){
+      fail()
+      // let originalArray = [1,2,3];
+      // let originalCopy = originalArray;
+      // let newArray = filter(originalArray, function(number){
+      //   return number > 1;
+      // });
+      // eq(originalArray.length === originalCopy.length, true);
+    }
+  });
   
   </script>  
 </body>
