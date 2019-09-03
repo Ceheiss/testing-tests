@@ -57,73 +57,64 @@
   // Check that original array wasn't altered
 
   // You can use fail(); at the beginning to fail the tests at the beginning.
-  function map(array, callback, optionalThisObject){
-    if (optionalThisObject){
-      callback = callback.bind(optionalThisObject);
+  
+  function map(array, callback, optionalThis){
+    let mappedArray = [];
+    if (optionalThis) {
+      callback = callback.bind(optionalThis);
     }
-    let filteredArray = [];
-    for (var i = 0; i < array.length; i++){
-      if (callback(array[i], i, array)){
-        filteredArray.push(array[i])
-      };
+    for(let i = 0; i <  array.length; i++){
+      let mappedValue = callback(array[i], i, array);
+      mappedArray.push(mappedValue);
     }
-    return filteredArray
-  }
+    return mappedArray
+  };
 
   tests({
     'it should run the callback function array.length times': function() {
-      fail()
-      // var timesTheCallbackHasRun = 0;
-      // filter([1,2,3], function(){
-      //   timesTheCallbackHasRun++;
-      // });
-      // eq(timesTheCallbackHasRun, 3);
+      var timesTheCallbackHasRun = 0;
+      map([1,2,3], function(){
+        timesTheCallbackHasRun++;
+      });
+      eq(timesTheCallbackHasRun, 3);
     },
     'it should pass in the i`th` element as the first argument to the callback': function() {
-      fail()
-      // filter([1], function(number){
-      // eq(number ,1);
-      // });
+      map([1], function(number){
+      eq(number ,1);
+      });
     },
     'it should pass in position i (ith position) as the second argument to the callback': function(){
-      fail()
-      // filter([1], function(number, index){
-      //   eq(index, 0);
-      // });
+      map([1], function(number, index){
+        eq(index, 0);
+      });
     },
     'it should pass the original array as the third argument of the callback': function(){
-      fail()
-      // let testArray = [1, 2, 3];
-      // filter(testArray, function(number, index, originalArray){
-      //   eq(originalArray, testArray);
-      // });
+      let testArray = [1, 2, 3];
+      map(testArray, function(number, index, originalArray){
+        eq(originalArray, testArray);
+      });
     },
     'It should accept an optional this object': function(){
-      fail()
-      // filter([1], function(){
-      //   eq(this.description, 'I should be accessible in the callback')
-      // }, {description: 'I should be accessible in the callback'})
+      map([1], function(){
+        eq(this.description, 'I should be accessible in the callback')
+      }, {description: 'I should be accessible in the callback'})
     },
     'It should return an array': function(){
-      fail()
-      // let filteredArray = filter([], function(number){});
-      // eq(Array.isArray(filteredArray), true);
+      let mappedArray = map([], function(number){});
+      eq(Array.isArray(mappedArray), true);
     },
-    'It should return a new array with filtered information that returned true in the callback': function(){
-      fail()
-      // let filteredArray = filter([1,2,3,4], function(number){
-      //   return number > 3;
-      // });
-      // eq(Number(filteredArray), 4);
+    'It should return an array different from original array': function(){
+      let originalArray = [1,2,3];
+      let newArray = map(originalArray, function(number){
+        return number * 2;
+      });
+      eq(originalArray !== newArray, true);
     },
-    'It should\'nt alter the original array': function(){
-      fail()
-      // let originalArray = [1,2,3];
-      // let originalCopy = originalArray;
-      // let newArray = filter(originalArray, function(number){
-      //   return number > 1;
-      // });
-      // eq(originalArray.length === originalCopy.length, true);
+    'It should return a new array that has elements that have been transformed by the callback function': function(){
+      let mappedArray = map([4], function(number){
+        return number * 2;
+      });
+      eq(Number(mappedArray), 8);
     }
   });
   
