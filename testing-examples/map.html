@@ -127,8 +127,7 @@
       let mappedArray = map(weirdArray, function(element){
         return element * 2;
       })
-      console.log(mappedArray)
-      eq(mappedArray[0] === undefined, true);
+      eq(0 in mappedArray, false);
       eq(mappedArray[1], 4);
     }
   });
