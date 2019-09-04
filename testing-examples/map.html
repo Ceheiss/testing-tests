@@ -58,14 +58,20 @@
 
   // You can use fail(); at the beginning to fail the tests at the beginning.
   
+  // we can check properties in objects with syntax
   function map(array, callback, optionalThis){
     let mappedArray = [];
+    let mapCallback = callback;
     if (optionalThis) {
-      callback = callback.bind(optionalThis);
+      mapCallback = callback.bind(optionalThis);
     }
     for(let i = 0; i <  array.length; i++){
-      let mappedValue = callback(array[i], i, array);
-      mappedArray.push(mappedValue);
+       // propertyName in object; --> name in person;
+       // We use that to skip unassigned properties
+      if (i in array){
+        let mappedValue = mapCallback(array[i], i, array);
+        mappedArray[i] = mappedValue;
+      }
     }
     return mappedArray
   };
@@ -114,7 +120,16 @@
       let mappedArray = map([4], function(number){
         return number * 2;
       });
-      eq(Number(mappedArray), 8);
+      eq(mappedArray[0], 8);
+    },
+    'It should skip unassigned indexes': function(){
+      let weirdArray = [,2,3];
+      let mappedArray = map(weirdArray, function(element){
+        return element * 2;
+      })
+      console.log(mappedArray)
+      eq(mappedArray[0] === undefined, true);
+      eq(mappedArray[1], 4);
     }
   });
   
