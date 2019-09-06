@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Reduce Function Testing</title>
+</head>
+<body>
+  <script src="../tinytest.js"></script>
+  <script>
+    function addAll(numbers, startingValue){
+      for(let i = 0; i < numbers.length; i++){
+        startingValue += numbers[i];
+      }
+      return startingValue;
+    }
+
+    tests({
+      'it should add all numbers provided in the array': function(){
+        let addedValue = addAll([1,2,3,4], 0);
+        eq(addedValue, 10);
+      }
+    })
+  </script>
+</body>
+</html>
