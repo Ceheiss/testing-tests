@@ -44,30 +44,73 @@
 
     Requirements:
 
-    - If initialValue, previousValue should be equal to initialValue.
-    - If initialValue, currentValue should be equal to first element in the array.
+    - If initialValue, previousValue should start with initialValue.
+    - If initialValue, currentValue should start with array[0].
     - If initialValue, callback will start at index 0.
 
-    - If no initialValue, previousValue should be equal to first element in the array (array[0]).
-    - If no initialValue, currentValue should be equal to second element/value in the array (array[1]).
+    - If no initialValue, previousValue should start with array[0].
+    - If no initialValue, currentValue should start with array[1].
     - If no initialValue, callback will start at index 1.
+
+    - If initialValue and array is empty, return initialValue without calling callback.
+      -  reduce([], function(){}, 0)>>> return 0 without callback;
+      -  reduce ([--hole here--, --hole here--], function(){}, 0) >>> return 0 without callback
+    - If no initialValue and array has one element, it should return only that element without calling callback.
+      -  reduce ([--hole here--, 1], function(){}) >>> return 1 without callback
+      -  reduce ([1], function(){}) >>> return 1 without callback
+   
+    - It should actually reduce.
+    - It should exclude holes.
 
     - Callback should not run on holes in the array
       - (e.g. array[--hole here--, 2,3 ]);
     - If array is empty and not initialValue, throw TypeError.
       - reduce([], function(){}) >>> TypeError
-
-    - If array has one element, and no initialValue, return only element without calling callback.
-      -  reduce ([--hole here--, 1], function(){}) >>> return 1 without callback
-      -  reduce ([1], function(){}) >>> return 1 without callback
-    - If array is empty, and there is an initialValue, return initialValue without calling callback.
-      -  reduce([], function(){}, 0)>>> return 0 without callback;
-      -  reduce ([--hole here--, --hole here--], function(){}, 0) >>> return 0 without callback
-      
+    - It should pass array as fouth argument of callback.      
     */
 
     tests({
-      '': function(){
+      'If initialValue, previousValue should start with initialValue.': function(){
+        fail()
+      },
+      'If initialValue, currentValue should start with array[0].': function(){
+        fail()
+      },
+      'If initialValue, callback will start at index 0': function(){
+        fail()
+      },
+
+      'If no initialValue, previousValue should start with array[0]': function(){
+        fail()
+      },
+      'If no initialValue, currentValue should start with array[1]': function(){
+        fail()
+      },
+      'If no initialValue, callback will start at index 1': function(){
+        fail()
+      },
+
+      'If initialValue and array is empty, return initialValue without calling callback': function(){
+        fail()
+      },
+      'If no initialValue and array has one element, it should return only that element without calling callback': function(){
+        fail()
+      },
+
+      'It should actually reduce': function(){
+        fail()
+      },
+      'It should exclude holes': function(){
+        fail()
+      },
+      
+      'Callback should not run on holes in the array': function(){
+        fail()
+      },
+      'If array is empty and not initialValue, throw TypeError': function(){
+        fail()
+      },
+      ' It should pass array as fouth argument of callback': function(){
         fail()
       }
     })
