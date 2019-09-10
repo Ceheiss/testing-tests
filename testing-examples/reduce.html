@@ -9,17 +9,66 @@
 <body>
   <script src="../tinytest.js"></script>
   <script>
-    function addAll(numbers, startingValue){
-      for(let i = 0; i < numbers.length; i++){
-        startingValue += numbers[i];
-      }
-      return startingValue;
-    }
+    // Prototype
+    // function reduce(array, callback, startingValue){
+    //   let resultSoFar = startingValue;
+    //   for (let i = 0; i < array.length; i++){
+    //     resultSoFar = callback(resultSoFar, array[i], i, array)
+    //   }
+    //   return resultSoFar
+    // }
+    /*
+    Syntax or Function Signature:
+    arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])
+
+    The reduce() method executes a reducer function (that you provide) on each element of the array, resulting in a single output value.
+    The reducer function takes four arguments:
+      - Accumulator (acc)
+      - Current Value (cur)
+      - Current Index (idx)
+      - Source Array (src)
+    Your reducer function's returned value is assigned to the accumulator, whose value is remembered across each iteration throughout the array and ultimately becomes the final, single resulting value.
+
+    Turn the docs into requirements:
+    - reduce(array, callback[, startingValue]) --> startingValue is optional
+    - callback parameters: previousValue, currentValue, currentIndex, array
+    - returns a single value
+
+    Description:
+
+    The reduce() method executes the callback once for each assigned value present in the array, taking four arguments:
+      - accumulator
+      - currentValue
+      - currentIndex
+      - array
+
+    Requirements:
+
+    - If initialValue, previousValue should be equal to initialValue.
+    - If initialValue, currentValue should be equal to first element in the array.
+    - If initialValue, callback will start at index 0.
+
+    - If no initialValue, previousValue should be equal to first element in the array (array[0]).
+    - If no initialValue, currentValue should be equal to second element/value in the array (array[1]).
+    - If no initialValue, callback will start at index 1.
+
+    - Callback should not run on holes in the array
+      - (e.g. array[--hole here--, 2,3 ]);
+    - If array is empty and not initialValue, throw TypeError.
+      - reduce([], function(){}) >>> TypeError
+
+    - If array has one element, and no initialValue, return only element without calling callback.
+      -  reduce ([--hole here--, 1], function(){}) >>> return 1 without callback
+      -  reduce ([1], function(){}) >>> return 1 without callback
+    - If array is empty, and there is an initialValue, return initialValue without calling callback.
+      -  reduce([], function(){}, 0)>>> return 0 without callback;
+      -  reduce ([--hole here--, --hole here--], function(){}, 0) >>> return 0 without callback
+      
+    */
 
     tests({
-      'it should add all numbers provided in the array': function(){
-        let addedValue = addAll([1,2,3,4], 0);
-        eq(addedValue, 10);
+      '': function(){
+        fail()
       }
     })
   </script>
