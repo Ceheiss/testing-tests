@@ -43,7 +43,7 @@
       - array
 
     Requirements:
-
+    (normally this would be erased, I leave it here for educational purposes)
     - If initialValue, previousValue should start with initialValue.
     - If initialValue, currentValue should start with array[0].
     - If initialValue, callback will start at index 0.
@@ -68,16 +68,48 @@
       - reduce([], function(){}) >>> TypeError
     - It should pass array as fouth argument of callback.      
     */
+    
+    function reduce (array, callback, initialValue){
+      let startingIndex = 0;
+      // Detect if there is initialValue
+      if(arguments.length < 3) {
+        startingIndex++;
+      }
 
+      for(let i = startingIndex; i < array.length; i++){
+        callback(initialValue, array[0], i);
+      }
+    };
     tests({
+      'If initialValue, callback should run array.length times':function(){
+        let numberOfTimesCallbackHasRun = 0;
+        reduce([1], function(){
+          numberOfTimesCallbackHasRun++;
+        }, 0)
+        eq(numberOfTimesCallbackHasRun, 1)
+      },
+      'If no initialValue, callback should run array.length - 1 times':function(){
+        let numberOfTimesCallbackHasRun = 0;
+        reduce([1], function(){
+          numberOfTimesCallbackHasRun++;
+        })
+        eq(numberOfTimesCallbackHasRun, 0)
+      },
+
       'If initialValue, previousValue should start with initialValue.': function(){
-        fail()
+        reduce([1], function(previousValue){
+          eq(previousValue, 0)
+        },0);
       },
       'If initialValue, currentValue should start with array[0].': function(){
-        fail()
+        reduce([1], function(previousValue, currentValue){
+          eq(currentValue, 1)
+        },0);
       },
       'If initialValue, callback will start at index 0': function(){
-        fail()
+        reduce([1], function(previousValue, currentValue, index){
+          eq(index, 0)
+        },0);
       },
 
       'If no initialValue, previousValue should start with array[0]': function(){
@@ -103,14 +135,10 @@
       'It should exclude holes': function(){
         fail()
       },
-      
-      'Callback should not run on holes in the array': function(){
-        fail()
-      },
       'If array is empty and not initialValue, throw TypeError': function(){
         fail()
       },
-      ' It should pass array as fouth argument of callback': function(){
+      ' It should pass array as fourth argument of callback': function(){
         fail()
       }
     })
