@@ -72,6 +72,7 @@
     function reduce (array, callback, initialValue){
       let resultSoFar = initialValue;
       let startingIndex = 0;
+      let length = array.length;
       let validIndexArray = Object.keys(array);
       // If no initialValue
       if(arguments.length < 3) {
@@ -86,7 +87,7 @@
           return onlyElement;
         }
         // this checks that if no initialValue, we don't start with a hole
-        while(startingIndex in array === false && startingIndex < array.length){
+        while(startingIndex in array === false && startingIndex < length){
           startingIndex++;
         }
         resultSoFar = array[startingIndex];
@@ -98,7 +99,7 @@
         }
       }
 
-      for(let i = startingIndex; i < array.length; i++){
+      for(let i = startingIndex; i < length; i++){
         // if in array checks for holes
         if (i in array){
           resultSoFar = callback(resultSoFar, array[i], i, array);
