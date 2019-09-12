@@ -1,4 +1,7 @@
 /**
+ * Modification to TinyTest called SimpleTest
+ * Functionality is the same one, so I will keep the description below:
+ * 
  * Very simple in-browser unit-test library, with zero deps.
  *
  * Background turns green if all tests pass, otherwise red.
@@ -38,32 +41,46 @@
  * MIT License. See https://github.com/joewalnes/jstinytest/
  */
 
-// Todos
-// successes be green
-// failures be red
-// show stack traces for failures
-// only show stack traces if you expand
-// output summary statistics to the DOM
 
+const SimpleTestHelper = {
+  renderStats: function(failures, successes){
+    // General styling
+    document.body.style.fontFamily = "arial";
+    document.body.style.textAlign = "center";
+    // Message
+    let numberOfTests = failures + successes;
+    let statisticsText = "Ran " + numberOfTests + " tests: " + successes + " passed, and " + failures + " failed."
+    // Display in DOM
+    let informationContainer = document.createElement("h1");
+    let information = document.createTextNode(statisticsText); 
+    informationContainer.appendChild(information);
+    informationContainer.style.color = "#333";
+    document.body.appendChild(informationContainer);
+  }
+}
 
-var TinyTest = {
+const SimpleTest = {
 
   run: function(tests) {
-      var failures = 0;
-      for (var testName in tests) {
-          var testAction = tests[testName];
+      let failures = 0;
+      let successes = 0;
+      for (let testName in tests) {
+          let testAction = tests[testName];
           try {
               testAction.apply(this);
-              console.log('%c' + testName, 'color: green');
+              successes++;
+              console.log('%c' + testName, 'color: green; font-family: arial;');
           } catch (e) {
               failures++;
-              console.log('%c' + testName + ' ' + e, 'color: red');
+              console.groupCollapsed('%c' + testName, 'color: red; font-weight: bold;font-family: arial;');
               console.error(e.stack);
+              console.groupEnd();
           }
       }
       setTimeout(function() { // Give document a chance to complete
           if (window.document && document.body) {
               document.body.style.backgroundColor = (failures == 0 ? '#99ff99' : '#ff9999');
+              SimpleTestHelper.renderStats(failures, successes);
           }
       }, 0);
   },
@@ -92,9 +109,9 @@ var TinyTest = {
 
 };
 
-var fail               = TinyTest.fail.bind(TinyTest),
-  assert             = TinyTest.assert.bind(TinyTest),
-  assertEquals       = TinyTest.assertEquals.bind(TinyTest),
-  eq                 = TinyTest.assertEquals.bind(TinyTest), // alias for assertEquals
-  assertStrictEquals = TinyTest.assertStrictEquals.bind(TinyTest),
-  tests              = TinyTest.run.bind(TinyTest);
+const fail               = SimpleTest.fail.bind(SimpleTest),
+  assert             = SimpleTest.assert.bind(SimpleTest),
+  assertEquals       = SimpleTest.assertEquals.bind(SimpleTest),
+  eq                 = SimpleTest.assertEquals.bind(SimpleTest), // alias for assertEquals
+  assertStrictEquals = SimpleTest.assertStrictEquals.bind(SimpleTest),
+  tests              = SimpleTest.run.bind(SimpleTest);
