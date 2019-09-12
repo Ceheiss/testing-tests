@@ -51,11 +51,11 @@ const SimpleTestHelper = {
     let numberOfTests = failures + successes;
     let statisticsText = "Ran " + numberOfTests + " tests: " + successes + " passed, and " + failures + " failed."
     // Display in DOM
-    let informationContainer = document.createElement("h1");
-    let information = document.createTextNode(statisticsText); 
-    informationContainer.appendChild(information);
-    informationContainer.style.color = "#333";
-    document.body.appendChild(informationContainer);
+    let statisticsTextContainer = document.createElement("h1");
+    let statisticsTextContent = document.createTextNode(statisticsText); 
+    statisticsTextContainer.appendChild(statisticsTextContent);
+    statisticsTextContainer.style.color = "#333";
+    document.body.appendChild(statisticsTextContainer);
   }
 }
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Find Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script>
+    // Array.prototype.find
+    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+    // Read all the docs, distil the specs and transform them into tests.
+    // after that check and re-check code, variable names and all the work done.
+    /*
+    General Description:
+    The find() method returns the value of the first element in the provided array that satisfies the provided testing function.
+    _________________________
+    Syntax:
+    arr.find(callback(element[, index[, array]])[, thisArg])
+    _________________________
+    Example:
+      var array1 = [5, 12, 8, 130, 44];
+      var found = array1.find(function(element) {
+        return element > 10;
+      });
+      console.log(found);
+      // expected output: 12
+    _________________________
+    Description:
+    The find method executes the callback function once for each index of the array until the callback returns a truthy value. If so, find immediately returns the value of that element. Otherwise, find returns undefined.
+
+    callback is invoked for every index of the array, not just those with assigned values. This means it may be less efficient for sparse arrays, compared to methods that only visit assigned values.
+
+    If a thisArg parameter is provided to find, it will be used as the this value inside each invocation of the callback. If it is not provided, then undefined is used.
+
+    The find method does not mutate the array on which it is called, but the function provided to callback can. If so, the elements processed by find are set before the first invocation of callback. Therefore:
+
+      - callback will not visit any elements added to the array after the call     to find begins.
+      - If an existing, yet-unvisited element of the array is changed by callback, its value passed to the callback will be the value at the time find visits that element's index.
+      - Elements that are deleted are still visited.
+    */
+
+    tests({
+      'first test': function(){
+        fail();
+      }
+    })
+  </script>
+</body>
+</html>
