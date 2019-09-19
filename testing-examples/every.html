@@ -17,19 +17,6 @@
     ----------
     Syntax:
     arr.every(callback(element[, index[, array]])[, thisArg])
-    ----------
-    Description:
-    The every method executes the provided callback function once for each element present in the array until it finds the one where callback returns a falsy value. If such an element is found, the every method immediately returns false. Otherwise, if callback returns a truthy value for all elements, every returns true. callback is invoked only for indexes of the array which have assigned values; it is not invoked for indexes which have been deleted or which have never been assigned values.
-
-    callback is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
-
-    If a thisArg parameter is provided to every, it will be used as callback's this value. Otherwise, the value undefined will be used as its this value.  The this value ultimately observable by callback is determined according to the usual rules for determining the this seen by a function.
-
-    every does not mutate the array on which it is called.
-
-    The range of elements processed by every is set before the first invocation of callback. Therefore, callback will not run on elements that are appended to the array after the call to every begins. If existing elements of the array are changed, their value as passed to callback will be the value at the time every visits them. Elements that are deleted are not visited.
-
-    every acts like the "for all" quantifier in mathematics. In particular, for an empty array, it returns true. (It is vacuously true that all elements of the empty set satisfy any given condition.)
     */
     function every(array, callback, optionalThis){
       let newCallback = callback;
@@ -70,7 +57,21 @@
           eq(this.message, "greetings from optional this");
         }, {message: "greetings from optional this"})
       },
-      
+      'it should return a boolean value':function(){
+        fail();
+      },
+      'it should check that all the elements in the array suffice the condition':function(){
+        fail();
+      },
+      'it should only worked with assigned values':function(){
+        fail();
+      },
+      'it shouldn\'t mutate the array':function(){
+        fail();
+      },
+      'it should return true if provided with an empty array':function(){
+        fail();
+      }
     })
   </script>
 </body>
