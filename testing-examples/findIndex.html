@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Find Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script>
+    // Array.prototype.findIndex
+    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+    /*
+    General description:
+    The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+    ----------
+    Syntax:
+    arr.findIndex(callback(element[, index[, array]])[, thisArg]) 
+    ----------
+    Description:
+    it should run the callback, if needed, array.length times
+    it should have access to the i'th element each time callback is run
+    it should have access to the index of each element
+    it should have access to the original passed array
+    it should accept an optional this
+    it should evaluate the elements in an array
+    it should return the index value of the element that passes description
+    it should return -1 if it doesn't find the value
+    */
+    function findIndex(array, callback){
+      
+    }
+
+
+    tests({
+      'it should run the callback, if needed, array.length times': function(){
+        fail();
+      },
+    })
+  </script>
+</body>
+</html>
