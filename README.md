@@ -11,7 +11,7 @@ The first four methods (forEach, filter, map, and reduce) are done following Wat
 
 
 ---
-##To be completed:##
+## To be completed:
 1. Array.prototype.forEach --> finished
 2. Array.prototype.filter --> finished
 3. Array.prototype.map --> finished

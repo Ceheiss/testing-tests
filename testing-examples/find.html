@@ -40,11 +40,41 @@
       - callback will not visit any elements added to the array after the call     to find begins.
       - If an existing, yet-unvisited element of the array is changed by callback, its value passed to the callback will be the value at the time find visits that element's index.
       - Elements that are deleted are still visited.
-    */
 
+      it should be able to evaluate a value of each element in the array
+
+    */
+    function find(array, callback){
+      for(let i = 0; i < array.length; i++){
+        callback(array[i], i, array);
+      }
+    }
     tests({
-      'first test': function(){
-        fail();
+      'it should be able to be called the array.length amount of times': function(){
+        let counter = 0;
+        find(["a","b","c"], function(){
+            counter++;
+        })
+        eq(counter, 3)
+      },
+      'it should be able to evaluate a value of each element in the array': function(){
+        find([1],function(element){
+          eq(element, 1)
+        });
+      },
+      'it should be able to tell the index of the element in the array': function(){
+        find([1],function(element, index){
+          eq(index, 0)
+        });
+      },
+      'it should be able to return the original array': function(){
+        let originalArray = [1]
+        find(originalArray, function(element, index, array){
+          eq(array, originalArray)
+        })
+      },
+      'it should accept an optional object to be used as "this"': function(){
+        find()
       }
     })
   </script>
