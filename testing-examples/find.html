@@ -45,14 +45,22 @@
 
     */
     function find(array, callback, optionalThis){
-      for(let i = 0; i < array.length; i++){
-        let newCallback = callback;
-        if(optionalThis){
-          newCallback = newCallback.bind(optionalThis);
-        }
-        newCallback(array[i], i, array);
+      let newCallback = callback;
+      if(optionalThis){
+        newCallback = newCallback.bind(optionalThis);
       }
+      let returnedValue;
+      for(let i = 0; i < array.length; i++){
+        returnedValue = newCallback(array[i], i, array);
+        if(returnedValue){
+          return array[i];
+          break;
+        }
+      }
+      return undefined;
     }
+
+
     tests({
       'it should be able to be called the array.length amount of times': function(){
         let counter = 0;
@@ -81,6 +89,50 @@
         find([1], function(element){
           eq(this.secretNumber, 5)
         }, {secretNumber: 5})
+      },
+      'it should be able to evaluate a value of at least one element in the array': function(){
+        let isElement = find([1], function(element){
+          return element === 1;
+        })
+        eq(isElement, true)
+      },
+      'it should only return one value': function(){
+        let counter = 0;
+        let isElement = find([1,1,1], function(element){
+          counter++;
+          return element === 1;
+        })
+        eq(counter, 1)
+      },
+      'it should return the value of theelement that matches the condition': function(){
+        let isElement = find([1,20,45,66], function(element){
+          return element === 45;
+        })
+        eq(isElement, 45);
+      },
+      'it should return only the first value that matches the condition': function(){
+        let counter = 0;
+        let isElement = find([1,20,45,66,45], function(element){
+          counter++;
+          return element === 45;
+        })
+        eq(isElement, 45);
+        eq(counter, 3);
+      },
+      'it should return undefined if it did not match': function(){
+        let isElement = find([1,20,66], function(element){
+          return element === 45;
+        })
+        eq(isElement, undefined);
+      },
+      'it should run the callback array.length times if returns undefined': function(){
+        let counter = 0;
+        let isElement = find([1,20,66], function(element){
+          counter++;
+          return element === 45;
+        })
+        eq(isElement, undefined);
+        eq(counter, 3);
       }
     })
   </script>
