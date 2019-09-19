@@ -31,42 +31,46 @@
 
     every acts like the "for all" quantifier in mathematics. In particular, for an empty array, it returns true. (It is vacuously true that all elements of the empty set satisfy any given condition.)
     */
-    function every(array, callback){
+    function every(array, callback, optionalThis){
+      let newCallback = callback;
+      if(optionalThis){
+        newCallback = newCallback.bind(optionalThis);
+      }
       for(let i = 0; i < array.length; i++){
-        callback(array[i]);
+        newCallback(array[i], i, array);
       }
     }
 
-
     tests({
       'it should run the callback, if needed, array.length times': function(){
-        // let counter = 0;
-        // findIndex([1,2,3,4], function(){
-        //   counter++;
-        // })
-        // eq(counter, 4);
+        let counter = 0;
+        every([1,2,3,4], function(){
+          counter++;
+        })
+        eq(counter, 4);
       },
       'it should have access to the i\'th element each time callback is run':function(){
-        // findIndex([1], function(element){
-        //   eq(element, 1);
-        // })
+        every([1], function(element){
+          eq(element, 1);
+        })
       },
       'it should have access to the index of each element':function(){
-        // findIndex([1], function(element, index){
-        //   eq(index, 0);
-        // })
+        every([1], function(element, index){
+          eq(index, 0);
+        })
       },
       'it should have access to the original passed array':function(){
-        // let originalArray = ['a','b','c'];
-        // findIndex(originalArray, function(element, index, array){
-        //   eq(array, originalArray);
-        // })
+        let originalArray = ['a','b','c'];
+        every(originalArray, function(element, index, array){
+          eq(array, originalArray);
+        })
       },
       'it should accept an optional this':function(){
-        // findIndex([1], function(){
-        //   eq(this.message, "greetings from optional this");
-        // }, {message: "greetings from optional this"})
-      }
+        every([1], function(){
+          eq(this.message, "greetings from optional this");
+        }, {message: "greetings from optional this"})
+      },
+      
     })
   </script>
 </body>
