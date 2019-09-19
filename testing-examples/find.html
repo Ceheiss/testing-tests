@@ -44,9 +44,13 @@
       it should be able to evaluate a value of each element in the array
 
     */
-    function find(array, callback){
+    function find(array, callback, optionalThis){
       for(let i = 0; i < array.length; i++){
-        callback(array[i], i, array);
+        let newCallback = callback;
+        if(optionalThis){
+          newCallback = newCallback.bind(optionalThis);
+        }
+        newCallback(array[i], i, array);
       }
     }
     tests({
@@ -74,7 +78,9 @@
         })
       },
       'it should accept an optional object to be used as "this"': function(){
-        find()
+        find([1], function(element){
+          eq(this.secretNumber, 5)
+        }, {secretNumber: 5})
       }
     })
   </script>
