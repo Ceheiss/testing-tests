@@ -26,6 +26,7 @@
       for(let i = 0; i < array.length; i++){
         newCallback(array[i], i, array);
       }
+      return true;
     }
 
     tests({
@@ -58,7 +59,10 @@
         }, {message: "greetings from optional this"})
       },
       'it should return a boolean value':function(){
-        fail();
+        let isGreaterThanZero = every([1,2,3], function(element){
+          return element > 0;
+        })
+        eq(isGreaterThanZero, true);
       },
       'it should check that all the elements in the array suffice the condition':function(){
         fail();
