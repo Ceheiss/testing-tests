@@ -23,20 +23,18 @@
       if(optionalThis){
         newCallback = newCallback.bind(optionalThis);
       }
+      if (array === []){
+        return true;
+      }
       for(let i = 0; i < array.length; i++){
-        newCallback(array[i], i, array);
+        if (!newCallback(array[i], i, array)){
+          return false;
+        }
       }
       return true;
     }
 
     tests({
-      'it should run the callback, if needed, array.length times': function(){
-        let counter = 0;
-        every([1,2,3,4], function(){
-          counter++;
-        })
-        eq(counter, 4);
-      },
       'it should have access to the i\'th element each time callback is run':function(){
         every([1], function(element){
           eq(element, 1);
@@ -59,22 +57,33 @@
         }, {message: "greetings from optional this"})
       },
       'it should return a boolean value':function(){
-        let isGreaterThanZero = every([1,2,3], function(element){
+        let isGreaterThanZero = every([1], function(element){
           return element > 0;
         })
         eq(isGreaterThanZero, true);
       },
       'it should check that all the elements in the array suffice the condition':function(){
-        fail();
+        let isGreaterThanZero = every([1,2,3], function(element){
+          return element > 0;
+        })
+        eq(isGreaterThanZero, true);
+
+        let isGreaterThanOne = every([1,2,3], function(element){
+          return element > 1;
+        })
+        eq(isGreaterThanOne, false);
       },
-      'it should only worked with assigned values':function(){
+      'it should only work with assigned values':function(){
         fail();
       },
       'it shouldn\'t mutate the array':function(){
         fail();
       },
       'it should return true if provided with an empty array':function(){
-        fail();
+        let emptyArray = every([], function(element){
+          return element > 0;
+        })
+        eq(emptyArray, true);
       }
     })
   </script>
