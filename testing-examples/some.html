@@ -17,41 +17,88 @@
     ----------
     Syntax:
     arr.some(callback(element[, index[, array]])[, thisArg])
-
-    Edge case:
-    The range of elements processed by some() is set before the first invocation of callback. Elements appended to the array after the call to some() begins will not be visited by callback. If an existing, unvisited element of the array is changed by callback, its value passed to the visiting callback will be the value at the time that some() visits that element's index. Elements that are deleted are not visited.
     */
+    
+    function some(array, callback, optionalThisObject){
+      let someCallback = callback;
+      if (optionalThisObject){
+        someCallback = callback.bind(optionalThisObject);
+      }
+      for(let i = 0; i < array.length; i++){
+        // checks for holes
+        if (i in array){
+          if(someCallback(array[i], i, array)){
+            return true
+          }
+        }
+      }
+      return false
+    };
+
 
     tests({
-      'it should call arr.length times the callback if no truthy value is returned':function(){
-        fail();
+      'it should call arr.length times the callback at the beginning':function(){
+        let timesCallbackHasBeenRun = 0;
+        some(["a","b","c"], function(){
+          timesCallbackHasBeenRun++;
+        })
+        eq(timesCallbackHasBeenRun, 3);
       },
       'it should have access to the i\'th element each time callback is run':function(){
-        fail();
+        some(["a"], function(element){
+          eq(element, "a");
+        })
       },
       'it should pass the index as the second argument to the callback':function(){
-        fail();
+        some(["a"], function(element, index){
+          eq(index, 0);
+        })
       },
       'it should pass the array as the third argument to the callback':function(){
-        fail();
+        let originalArray = ["a","b","c"];
+        some(originalArray, function(element, index, array){
+          eq(originalArray, array);
+        })
       },
       'it should accept an optional this object':function(){
-        fail();
+        some(["a"], function(){
+          eq(this.message, "greetings from optional this");
+        }, {message: "greetings from optional this"})
       },
       'it should return a boolean value':function(){
-        fail();
+        let someValue = some([1,2,3], function(element){
+          return element > 4;
+        })
+        eq(someValue, false);
       },
       'it should return true if one element suffies the condition':function(){
-        fail();
+        let someValue = some([1,2,3], function(element){
+          return element > 2;
+        })
+        eq(someValue, true);
       },
-      'it should return false is no element suffies the condition':function(){
-        fail();
+      'it should return false if no element suffies the condition after checking all of them':function(){
+        let timesCallbackHasBeenRun = 0;
+        let someValue = some([1,2,3], function(element){
+          timesCallbackHasBeenRun++;
+          return element > 6;
+        })
+        eq(someValue, false);
+        eq(timesCallbackHasBeenRun, 3);
       },
       'it should only run for assigned values':function(){
-        fail();
+        let timesCallbackHasBeenRun = 0;
+        let someValue = some([,,,,1,,,,,2,3,,,,,], function(element){
+          timesCallbackHasBeenRun++;
+        })
+        eq(timesCallbackHasBeenRun, 3);
       },
       'it should not mutate the original array':function(){
-        fail();
+        let originalArray = [1];
+        some(originalArray, function(element){
+          return element > 2;
+        })
+        eq(originalArray[0], 1);
       },
     })
   </script>
