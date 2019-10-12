@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Some Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script>
+    // Array.prototype.some
+    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/some
+    /*
+    General description:
+    The some() method tests whether at least one element in the array passes the test implemented by the provided function. It returns a Boolean value. 
+    ----------
+    Syntax:
+    arr.some(callback(element[, index[, array]])[, thisArg])
+
+    Description:
+
+    callback is invoked with three arguments: the value of the element, the index of the element, and the Array object being traversed.
+
+    If a thisArg parameter is provided to some(), it will be used as the callback's this value. 
+
+    Edge case:
+    The range of elements processed by some() is set before the first invocation of callback. Elements appended to the array after the call to some() begins will not be visited by callback. If an existing, unvisited element of the array is changed by callback, its value passed to the visiting callback will be the value at the time that some() visits that element's index. Elements that are deleted are not visited.
+
+    Specs:
+    it should call arr.length times the callback if no truthy value is returned
+    it should return a boolean value
+    it should return true if one element suffies the condition
+    it should return false is no element suffies the condition
+    it should only run for assigned values
+    it should not mutate the original array
+    */
+
+    tests({
+      'it should have access to the i\'th element each time callback is run':function(){
+        some([1], function(element){
+          eq(element, 1);
+        })
+      }
+    })
+  </script>
+</body>
+</html>

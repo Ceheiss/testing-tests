@@ -16,10 +16,10 @@ The first four methods (forEach, filter, map, and reduce) are done following Wat
 2. Array.prototype.filter --> finished
 3. Array.prototype.map --> finished
 4. Array.prototype.reduce --> finished
-5. Array.prototype.find --> in process
-6. Array.prototype.findIndex
-7. Array.prototype.every
-8. Array.prototype.some
+5. Array.prototype.find --> finished
+6. Array.prototype.findIndex --> finished
+7. Array.prototype.every --> finished
+8. Array.prototype.some --> in process
 9. Array.prototype.reduceRight
 10. Array.prototype.concat
 11. Array.prototype.indexOf

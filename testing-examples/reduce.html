@@ -80,13 +80,14 @@
           // constructor to make a TypeError
           throw new TypeError('Reduce of empty array with no initial value');
         }
-        // If array has one element, just return it
+        // If array has one element, just return it (checks holes)
         if (validIndexArray.length === 1) {
           let onlyIndex = validIndexArray[0];
           let onlyElement = array[onlyIndex];
           return onlyElement;
         }
         // this checks that if no initialValue, we don't start with a hole
+        // index in array returns a boolean (results depend whether there is a value to that index, that is why is useful for fixing holes)
         while(startingIndex in array === false && startingIndex < length){
           startingIndex++;
         }
@@ -107,6 +108,7 @@
       }
       return resultSoFar
     };
+
     tests({
       'If initialValue, callback should run array.length times':function(){
         let numberOfTimesCallbackHasRun = 0;

@@ -20,15 +20,22 @@
     */
     function every(array, callback, optionalThis){
       let newCallback = callback;
+      let validIndexArray = Object.keys(array);
+      
       if(optionalThis){
         newCallback = newCallback.bind(optionalThis);
       }
-      if (array === []){
+
+      if (validIndexArray.length === 0){
         return true;
       }
+
       for(let i = 0; i < array.length; i++){
-        if (!newCallback(array[i], i, array)){
-          return false;
+        // check for unassigned values (holes)
+        if (i in array){
+          if (!newCallback(array[i], i, array)){
+            return false;
+          }
         }
       }
       return true;
@@ -74,10 +81,20 @@
         eq(isGreaterThanOne, false);
       },
       'it should only work with assigned values':function(){
-        fail();
+        let timesCallbackHasRun = 0;
+        let everyValue = every([,,,,1,,,,2,,,,3], function(element){
+          timesCallbackHasRun++;
+          return element > 0;
+        })
+        eq(timesCallbackHasRun, 3);
+        eq(everyValue, true);
       },
       'it shouldn\'t mutate the array':function(){
-        fail();
+        let originalArray = [1];
+        every(originalArray, function(element){
+          return element > 2;
+        })
+        eq(originalArray[0], 1);
       },
       'it should return true if provided with an empty array':function(){
         let emptyArray = every([], function(element){
