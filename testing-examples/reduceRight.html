@@ -17,26 +17,174 @@
     ----------
     Syntax:
     arr.reduceRight(callback(accumulator, currentValue[, index[, array]])[, initialValue])
+
+    Parameters
+      callback
+        Function to execute on each value in the array, taking four arguments:
+        accumulator
+          The value previously returned in the last invocation of the callback, or initialValue, if supplied. (See below.)
+        currentValue
+          The current element being processed in the array.
+        index--Optional
+          The index of the current element being processed in the array.
+        array--Optional
+          The array reduceRight() was called upon.
+      initialValue--Optional
+        Value to use as accumulator to the first call of the callback. If no initial value is supplied, the last element in the array will be used and skipped. Calling reduce or reduceRight on an empty array without an initial value creates a TypeError.
     */
     
-    function reduceRight(){};
+    function reduceRight (array, callback, initialValue){
+      let resultSoFar = initialValue;
+      let startingIndex = 0;
+      let length = array.length;
+      let validIndexArray = Object.keys(array);
+      // If no initialValue
+      if(arguments.length < 3) {
+        if(validIndexArray.length === 0){
+          // constructor to make a TypeError
+          throw new TypeError('Reduce of empty array with no initial value');
+        }
+        // If array has one element, just return it (checks holes)
+        if (validIndexArray.length === 1) {
+          let onlyIndex = validIndexArray[0];
+          let onlyElement = array[onlyIndex];
+          return onlyElement;
+        }
+        // this checks that if no initialValue, we don't start with a hole
+        // index in array returns a boolean (results depend whether there is a value to that index, that is why is useful for fixing holes)
+        while(startingIndex in array === false && startingIndex < length){
+          startingIndex++;
+        }
+        resultSoFar = array[startingIndex];
+        startingIndex++;
+      } else {
+        // Return if no array
+        if (validIndexArray.length === 0){
+          return resultSoFar;
+        }
+      }
 
+      for(let i = startingIndex; i < length; i++){
+        // if in array checks for holes
+        if (i in array){
+          resultSoFar = callback(resultSoFar, array[i], i, array);
+        }
+      }
+      return resultSoFar
+    };
 
     tests({
-      'it should call arr.length times the callback at the beginning':function(){
-        fail();  
+      'If initialValue, callback should run array.length times':function(){
+        let numberOfTimesCallbackHasRun = 0;
+        reduceRight([1], function(){
+          numberOfTimesCallbackHasRun++;
+        }, 0)
+        eq(numberOfTimesCallbackHasRun, 1);
       },
-      'it should have access to the i\'th element each time callback is run':function(){
-        fail();  
+      'If no initialValue, callback should run array.length - 1 times':function(){
+        let numberOfTimesCallbackHasRun = 0;
+        reduceRight([1], function(){
+          numberOfTimesCallbackHasRun++;
+        })
+        eq(numberOfTimesCallbackHasRun, 0);
       },
-      'it should pass the index as the second argument to the callback':function(){
-        fail();  
+
+      'If initialValue, previousValue should start with initialValue.': function(){
+        reduceRight([1], function(previousValue){
+          eq(previousValue, 0);
+        },0);
       },
-      'it should pass the array as the third argument to the callback':function(){
-        fail();  
+      'If initialValue, currentValue should start with array[0].': function(){
+        reduceRight([1], function(previousValue, currentValue){
+          eq(currentValue, 1);
+        },0);
       },
-      'it should accept an optional this object':function(){
-        fail();  
+      'If initialValue, callback will start at index 0': function(){
+        reduceRight([1], function(previousValue, currentValue, index){
+          eq(index, 0);
+        },0);
+      },
+
+      'If no initialValue, previousValue should start with array[0]': function(){
+        reduceRight([1,2], function(previousValue){
+          eq(previousValue, 1);
+        })
+      },
+      'If no initialValue, currentValue should start with array[1]': function(){
+        reduceRight([1,2], function(previousValue, currentValue){
+          eq(currentValue, 2);
+        })
+      },
+      'If no initialValue, callback will start at index 1': function(){
+        reduceRight([1,2], function(previousValue, currentValue, currentIndex){
+          eq(currentIndex, 1);
+        })
+      },
+
+      'If initialValue, and array is empty, return initialValue without calling callback': function(){
+        let numberOfTimesCallbackHasRun = 0;
+        let emptyArray = reduceRight([],function(){
+          numberOfTimesCallbackHasRun++;
+        },1);
+        eq(numberOfTimesCallbackHasRun, 0);
+        eq(emptyArray, 1);
+        let holeArray = reduceRight([,,,,],function(){},1);
+        eq(holeArray, 1);
+      },
+      'If no initialValue, and array has one element, it should return only that element without calling callback': function(){
+        let numberOfTimesCallbackHasRun = 0;
+        let oneElementArray = reduceRight([1],function(){
+          numberOfTimesCallbackHasRun++;
+        });
+        eq(oneElementArray, 1);
+        eq(numberOfTimesCallbackHasRun, 0);
+      },
+
+      'It should actually reduce': function(){
+        let numbersArray = [1,2,3,4];
+        let reducedArray = reduceRight(numbersArray, function(acc, element){
+          acc = acc + element;
+          return acc;
+        },0)
+        eq(reducedArray, 10);
+      },
+      'If initial value it should exclude holes': function(){
+        let numbersArray = [,,,,1,2,,,,3,4,,];
+        let reducedArray = reduceRight(numbersArray, function(acc, element){
+          acc = acc + element;
+          return acc;
+        },0)
+        eq(reducedArray, 10);
+      },
+      'If no initial value it should exclude holes too': function(){
+        let numbersArray = [,,,,1,2,,,,3,4,,];
+        let reducedArray = reduceRight(numbersArray, function(acc, element){
+          acc = acc + element;
+          return acc;
+        })
+        eq(reducedArray, 10);
+      },
+      'If array is empty and not initialValue, throw TypeError': function(){
+        let isTypeError = false;
+        try {
+          reduceRight([], function(){});
+        } catch(e){
+          isTypeError = (e instanceof TypeError);
+        }
+        eq(isTypeError, true);
+      },
+      'It should pass array as fourth argument of callback': function(){
+        let testArray = [1,2];
+        reduceRight(testArray, function(previousValue, currentValue, currentIndex, arrayToReduce){
+          eq(testArray, arrayToReduce);
+        })
+      },
+      'It should start from the last element in the array to the first one': function(){
+        let abcArray = ["a", "b", "c"];
+        let reducedRightArray = reduceRight(abcArray, function(acc, element){
+          return acc += element;
+        }, "");
+        eq(reducedRightArray, "cba");
       }
     })
   </script>
