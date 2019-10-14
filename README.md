@@ -21,8 +21,8 @@ The first four methods (forEach, filter, map, and reduce) are done following Wat
 7. Array.prototype.every --> finished
 8. Array.prototype.some --> finished
 9. Array.prototype.reduceRight --> in process
-10. Array.prototype.concat --> in process
-11. Array.prototype.indexOf
+10. Array.prototype.concat --> finished
+11. Array.prototype.indexOf --> in process
 12. Array.prototype.lastIndexOf
 13. Array.prototype.includes
 14. Array.prototype.slice

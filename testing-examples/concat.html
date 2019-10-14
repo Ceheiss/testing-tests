@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Some Function Testing</title>
+  <title>Concat Function Testing</title>
 </head>
 <body>
   <script src="../simpletest.js"></script>
@@ -16,18 +16,26 @@
     ----------
     Syntax:
     const new_array = old_array.concat([value1[, value2[, ...[, valueN]]]])
-
-    It should accept multiple values
-    It should be ablo to handle arrays and no arrays
     */
     
-    function concat(originalArray, newArray){
+    function concat(originalArray){
       let returnedArray = [];
+      // returns a shallow copy of the original array
       for(let i = 0; i < originalArray.length; i++){
         returnedArray.push(originalArray[i]);
       }
-      for(let i = 0; i < newArray.length; i++){
-        returnedArray.push(newArray[i]);
+      // handles all the possible extra arguments
+      for(let i = 1; i < arguments.length; i++){
+        let currentArgument = arguments[i];
+        // handle if it's array
+        if(Array.isArray(currentArgument)){
+          for(let i = 0; i < currentArgument.length; i++){
+            returnedArray.push(currentArgument[i]);
+          }
+        // handle if it's not an array
+        } else {
+          returnedArray.push(currentArgument);
+        }
       }
       return returnedArray
     };
@@ -39,6 +47,29 @@
         let newArray = concat([1,2,3], addedArray);
         eq(newArray.length, 6);
       },
+      'it should be able to merge the second argument in the original array even if it isn\'t an array':function(){
+        let addedObject = {greet: "hola"};
+        let newArray = concat([1,2,3], addedObject);
+        eq(newArray[3].greet, "hola");
+      },
+      'it should handle multiple arguments':function(){
+        let addedArray = [4,5,6];
+        let newArray = concat([1,2,3], addedArray, 2, 6,[1,2,3],"last value");
+        eq(newArray[11], "last value");
+      },
+      'it should not mutate the arrays being concatenated': function(){
+        let originalArray = [1,2];
+        let addedArray = [4,5,6];
+        let newArray = concat(originalArray, addedArray);
+        eq(addedArray.length, 3);
+        eq(originalArray.length, 2);
+      },
+      'if should return a shallow copy of the array if no more values are added': function(){
+        let originalArray = [1,2,3];
+        let shallowCopyArray = concat(originalArray);
+        eq(shallowCopyArray !== originalArray, true);
+        eq(shallowCopyArray.length, originalArray.length);
+      }
     })
   </script>
 </body>
