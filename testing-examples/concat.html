@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Some Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script>
+    // Array.prototype.concat
+    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
+    /*
+    The concat() method is used to merge two or more arrays. This method does not change the existing arrays, but instead returns a new array.
+    ----------
+    Syntax:
+    const new_array = old_array.concat([value1[, value2[, ...[, valueN]]]])
+
+    It should accept multiple values
+    It should be ablo to handle arrays and no arrays
+    */
+    
+    function concat(originalArray, newArray){
+      let returnedArray = [];
+      for(let i = 0; i < originalArray.length; i++){
+        returnedArray.push(originalArray[i]);
+      }
+      for(let i = 0; i < newArray.length; i++){
+        returnedArray.push(newArray[i]);
+      }
+      return returnedArray
+    };
+
+
+    tests({
+      'it should be able to join to arrays into one':function(){
+        let addedArray = [4,5,6];
+        let newArray = concat([1,2,3], addedArray);
+        eq(newArray.length, 6);
+      },
+    })
+  </script>
+</body>
+</html>
