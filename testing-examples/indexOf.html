@@ -18,12 +18,28 @@
     arr.indexOf(searchElement[, fromIndex])
     */
     
-    function indexOf(){
+    function indexOf(array, value){
+    let returnedValue;
+
+      if (Array.isArray(array)){
+        for(let i = 0; i < array.length; i++){
+          if(array[i] === value){
+            returnedValue = i;
+            return returnedValue
+          }
+        }
+        return -1
+      }
     };
 
-
     tests({
-      '':function(){
+      'it should return the index of searched element in the array':function(){
+        let indexValue = indexOf(["a", "b", "c"], "c");
+        eq(indexValue, 2);
+      },
+      'it should return -1 if the element is not found in the array':function(){
+        let indexValue = indexOf(["a", "b", "c"], "e");
+        eq(indexValue, -1);
       },
     })
   </script>
