@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Concat Function Testing</title>
+  <title>IndexOf Function Testing</title>
 </head>
 <body>
   <script src="../simpletest.js"></script>
@@ -22,12 +22,17 @@
     */
     
     function indexOf(array, searchElement, fromIndex){
+      // default value
+      let startingIndex = 0;
+      if (fromIndex) {
+        startingIndex = fromIndex;
+      }
       let returnedValue;
       if (fromIndex >= array.length) {
         return -1;
       }
       if (Array.isArray(array)){
-        for(let i = 0; i < array.length; i++){
+        for(let i = startingIndex; i < array.length; i++){
           if(array[i] === searchElement){
             returnedValue = i;
             return returnedValue
@@ -46,14 +51,44 @@
         let indexValue = indexOf(["a", "b", "c"], "e");
         eq(indexValue, -1);
       },
-      'It should return -1 if the index is greater than or equal to the array\'s length':function(){
+      'It should return -1 if the indexFrom is greater than or equal to the array\'s length':function(){
         let indexValue = indexOf(["a", "b", "c"], "a", 3);
         eq(indexValue, -1);
       },
-      '':function(){
-
+      'it should start searching for the matching element starting on the provided indexOf value': function(){
+        let indexValue = indexOf(["a", "b", "c"], "a", 2);
+        eq(indexValue, -1);
       },
+      'it should search the whole id if indexFrom is 0': function(){
+        let indexValue = indexOf(["a", "b", "c"], "c", 0);
+        eq(indexValue, 2);
+      },
+      'it should search the whole id from from to back if indexFrom is a negative value': function(){
+        let indexValue = indexOf(["a", "b", "c"], "b", -5);
+        eq(indexValue, 1);
+      }
     })
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
