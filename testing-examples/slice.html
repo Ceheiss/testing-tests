@@ -21,13 +21,60 @@
     arr.slice([begin[, end]])
     */
     
-    function slice(){
-
+    function slice(array, begin, end){
+        debugger;
+        let endingValue = array.length;
+        let startingValue = 0;
+        let slicedArray = [];
+        if (begin) {
+            startingValue = begin;
+            if (begin > array.length) {
+                return slicedArray;
+            }
+            if (begin < 0) {
+                startingValue = Number(begin) + Number(array.length);
+            }
+        }
+        if (end) {
+            endingValue = end;
+        }
+        for(let i = startingValue; i < endingValue; i++){
+            slicedArray.push(array[i]);
+        }
+        return slicedArray;
     }
 
 
     tests({
-        'it should return a boolean':function(){
+        'it should return a new array starting at the value of begin and ending at end (end not included)': function(){
+            let myAnimals = ["duck", "tiger", "wolf", "Falcon", "Ostrich"];
+            let mySlicedAnimals = slice(myAnimals, 1, 3);
+            eq(mySlicedAnimals.length, 2);
+            eq(mySlicedAnimals[1], "wolf");
+        },
+        'it should start at 0 if begin is not provided': function(){
+            let myAnimals = ["duck", "tiger", "wolf", "Falcon", "Ostrich"];
+            let mySlicedAnimals = slice(myAnimals);
+            eq(mySlicedAnimals.length, 5);
+        },
+        'it should return an empty array if begin is greater than array.length': function(){
+            let myAnimals = ["duck", "tiger", "wolf", "Falcon", "Ostrich"];
+            let mySlicedAnimals = slice(myAnimals, 10, 12);
+            eq(mySlicedAnimals.length, 0);
+        },
+        'it should extract the last two elements if begin is -2': function(){
+            let myAnimals = ["duck", "tiger", "wolf", "Falcon", "Ostrich"];
+            let myFalconAndOstrich = slice(myAnimals, -2);
+            eq(myFalconAndOstrich[1], "Ostrich");
+        },
+        'it should extract the third element through the second-to-last element in the sequence if slice(2,-1) ': function(){
+            fail();
+        },
+        'it should extract through the whole array if end is omitted': function(){
+            fail();
+        },
+        'it should extract through the whole array if end is greater than array.length': function(){
+            fail();
         },
     })
   </script>
