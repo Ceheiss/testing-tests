@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>includes Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script>
+    // Array.prototype.includes
+    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
+    /*
+    Description:
+    The includes() method determines whether an array includes a 
+    certain value among its entries, returning true or false as appropriate.
+    
+    Syntax:
+    arr.includes(valueToFind[, fromIndex])
+
+    Parameters:
+    -valueToFind: The value to search for.
+    
+    -FromIndex (optional)
+    The position in this array at which to begin searching for valueToFind;
+    the first character to be searched is found at fromIndex for positive values of fromIndex,
+    or at array.length + fromIndex for negative values of fromIndex 
+    (using the absolute value of fromIndex as the number of characters from the end of the array
+    at which to start the search). Defaults to 0.
+
+    Returns a boolean.
+    */
+    
+    function includes(array, valueToFind, fromIndex){
+        let startingFrom = 0;
+        if (fromIndex){
+            startingFrom = fromIndex;
+        }
+        if(Array.isArray(array)){
+            for(let i = startingFrom; i < array.length; i++){
+                if(array[i] === valueToFind){
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            throw new TypeError('First argument should be an array');
+        }
+    }
+
+
+    tests({
+        'it should return a boolean':function(){
+            let includesResult = includes([1],1);
+            eq(typeof includesResult, typeof true);
+        },
+        'it should return true if the value to find is found in the array': function(){
+            let shouldBeTrue = includes([1,2,3], 3);
+            eq(shouldBeTrue, true);
+        },
+        'it should return false if the value to find is not in the array': function(){
+            let shouldBeFalse = includes([1,2,3], 4);
+            eq(shouldBeFalse, false);
+        },
+        'it should be able to start searching from the value indicated in fromIndex': function(){
+            let skipTheFirst = includes(['a','b','c'], 'a', 1);
+            eq(skipTheFirst, false)
+        },
+        'it should throw an error if first argument is not an array': function(){
+            let isTypeError = false;
+            try {
+                includes("string", 2);
+            } catch(e){
+                isTypeError = (e instanceof TypeError);
+            }
+            eq(isTypeError, true);
+        }
+    })
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
