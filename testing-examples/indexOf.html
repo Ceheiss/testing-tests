@@ -22,23 +22,27 @@
     */
     
     function indexOf(array, searchElement, fromIndex){
-      // default value
-      let startingIndex = 0;
-      if (fromIndex) {
-        startingIndex = fromIndex;
-      }
-      let returnedValue;
-      if (fromIndex >= array.length) {
-        return -1;
-      }
-      if (Array.isArray(array)){
-        for(let i = startingIndex; i < array.length; i++){
-          if(array[i] === searchElement){
-            returnedValue = i;
-            return returnedValue
-          }
+      if(Array.isArray(array)){
+        // default value
+        let startingIndex = 0;
+        if (fromIndex) {
+          startingIndex = fromIndex;
         }
-        return -1;
+        let returnedValue;
+        if (fromIndex >= array.length) {
+          return -1;
+        }
+        if (Array.isArray(array)){
+          for(let i = startingIndex; i < array.length; i++){
+            if(array[i] === searchElement){
+              returnedValue = i;
+              return returnedValue
+            }
+          }
+          return -1;
+        }
+      } else {
+        throw new TypeError('First argument should be an array');
       }
     };
 
@@ -66,6 +70,15 @@
       'it should search the whole id from from to back if indexFrom is a negative value': function(){
         let indexValue = indexOf(["a", "b", "c"], "b", -5);
         eq(indexValue, 1);
+      },
+      'it should throw an error if first argument is not an array': function(){
+        let isTypeError = false;
+        try {
+          indexOf("string", 2);
+        } catch(e){
+          isTypeError = (e instanceof TypeError);
+        }
+        eq(isTypeError, true);
       }
     })
   </script>

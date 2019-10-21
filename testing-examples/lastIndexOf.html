@@ -33,6 +33,7 @@
     */
     
     function lastIndexOf(array, searchElement, fromIndex){
+      if(Array.isArray(array)){
         if (fromIndex === 0) {
             return -1;
         }
@@ -48,6 +49,9 @@
             }
         }
         return -1;
+      } else {
+        throw new TypeError('First argument should be an array');
+      }
     };
 
     tests({
@@ -78,6 +82,15 @@
       'it should search all the array if indexOf is greater than or equal to array.length': function(){
           let allBeSearched = lastIndexOf(['a','b'], 'a', 13);
           eq(allBeSearched, 0)
+      },
+      'it should throw an error if first argument is not an array': function(){
+        let isTypeError = false;
+        try {
+          lastIndexOf("string", 2);
+        } catch(e){
+          isTypeError = (e instanceof TypeError);
+        }
+        eq(isTypeError, true);
       }
     })
   </script>
