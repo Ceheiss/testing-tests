@@ -123,3 +123,17 @@ function reverse(array){
         throw new TypeError("First argument must be iterable");
     }
 }
+
+function arrayToObject(array){
+    let arrayLength = array.length;
+    let returnedObject = {};
+    if (Array.isArray(array)){
+        for(let i = 0; i < arrayLength; i++){
+            returnedObject[i] = array[i];
+        }
+        returnedObject.length = arrayLength;
+    } else {
+        throw new TypeError("Please provide an array");
+    }
+    return returnedObject;
+}

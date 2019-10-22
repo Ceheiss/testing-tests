@@ -8,6 +8,7 @@
 </head>
 <body>
   <script src="../simpletest.js"></script>
+  <script src="../rewriteLibrary.js"></script>
   <script>
     // Array.prototype.slice
     // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse
@@ -19,18 +20,27 @@
     it needs to check if the first argument is an object, and if that is the case, check if the last property is length
     */
     
-    function reverse(array){
-        if(Array.isArray(array)){
+    function reverse(iterable){
+        let usedToBeObject = false;
+        if((typeof iterable === "object") && (!Array.isArray(iterable))){
+            usedToBeObject = true;
+            iterable = arrayFrom(iterable);
+        }
+        if(Array.isArray(iterable)){
             let reversedArray = [];
-            for(let i = array.length - 1; i > -1; i--){
-                reversedArray.push(array[i]);
+            for(let i = iterable.length - 1; i > -1; i--){
+                reversedArray.push(iterable[i]);
             }
             // Hacky way to mutate the original array
             for(let i = 0; i < reversedArray.length; i++){
-                array.shift();
-                array.push(reversedArray[i])
+                iterable.shift();
+                iterable.push(reversedArray[i])
             }
-            return array;
+            // Back to object
+            if(usedToBeObject){
+                iterable = arrayToObject(iterable);
+            }
+            return iterable;
         } else {
             throw new TypeError("First argument must be iterable");
         }
@@ -57,9 +67,10 @@
             eq(originalArray[2] !== 3, true);
         },
         'it should handle an object that has length property': function(){
-            let objectToBeReversed = [1,2,3];
-            let reversedArray = reverse(originalArray);
-            eq(originalArray[2] !== 3, true);
+            let objectToBeReversed = {0: 'a',1: 'b',2: 'c', length: 3};
+            let reversedArray = reverse(objectToBeReversed);
+            eq(reversedArray[2], 'a');
+            eq(reversedArray.length, 3);
         }
     })
   </script>

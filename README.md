@@ -37,4 +37,13 @@ The first four methods (forEach, filter, map, and reduce) are done following Wat
 23. Array.prototype.sort
 24. Array.prototype.splice
 25. Array.prototype.from --> finished
+26. *arrayToObject --> finished
+
+* arrayToObject is a helper function that takes an  array and returns an iterable object:
+```javascript
+    let array = ['a','b','c'];
+    let turnedIntoObject = arrayToObject(array);
+    // now turnedIntoObject is:
+    {0: 'a', 1: 'b', 2: 'c', index: 3};
+```
 
