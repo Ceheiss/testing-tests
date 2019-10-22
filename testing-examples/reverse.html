@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Reverse Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script>
+    // Array.prototype.slice
+    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse
+    /*
+    Documents: The reverse() method reverses an array in place. The first array element becomes the last,
+    and the last array element becomes the first.
+
+    it has to reverse arrays and numbered objects (for this it needs a call function);
+    it needs to check if the first argument is an object, and if that is the case, check if the last property is length
+    */
+    
+    function reverse(array){
+        if(Array.isArray(array)){
+            let reversedArray = [];
+            for(let i = array.length - 1; i > -1; i--){
+                reversedArray.push(array[i]);
+            }
+            // Hacky way to mutate the original array
+            for(let i = 0; i < reversedArray.length; i++){
+                array.shift();
+                array.push(reversedArray[i])
+            }
+            return array;
+        } else {
+            throw new TypeError("First argument must be iterable");
+        }
+    }
+
+    tests({
+        'it has to reverse the order of elements in an array': function(){
+            let originalArray = ["a","b","c"];
+            let reversedArray = reverse(originalArray);
+            eq(reversedArray, originalArray.reverse());
+        },
+        'it should pass an array as the first argument': function(){
+            let isTypeError = false;
+            try {
+                reverse(23);
+            } catch(e) {
+                isTypeError = (e instanceof TypeError);
+            }
+            eq(isTypeError, true);
+        },
+        'it should mutate the original array': function(){
+            let originalArray = [1,2,3];
+            let reversedArray = reverse(originalArray);
+            eq(originalArray[2] !== 3, true);
+        },
+        'it should handle an object that has length property': function(){
+            fail();
+        }
+    })
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
