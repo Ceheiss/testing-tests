@@ -8,6 +8,7 @@
 </head>
 <body>
   <script src="../simpletest.js"></script>
+  <script src="../rewriteLibrary.js"></script>
   <script>
     // Array.prototype.reduceright
     // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceright
@@ -34,7 +35,7 @@
     */
     
     function reduceRight (array, callback, initialValue){
-      array = array.reverse();
+      array = reverse(array);
       let resultSoFar = initialValue;
       for (let i = 0; i < array.length; i++){
         resultSoFar = callback(resultSoFar, array[i], i, array)

@@ -5,7 +5,7 @@ function forEach(array, callback, optionalThisObject){
     for (var i = 0; i < array.length; i++){
       callback(array[i], i, array);
     }
-}
+};
 
 function map(array, callback, optionalThis){
     let mappedArray = [];
@@ -88,3 +88,38 @@ function indexOf(array, searchElement, fromIndex){
       throw new TypeError('First argument should be an array');
     }
 };
+
+function arrayFrom(iterable, callback, optionalThisObject){
+    let transformedArray = [];
+    if((typeof iterable === "object") && (!iterable.hasOwnProperty(length))){
+        return transformedArray;
+    }
+    for (let i = 0; i < iterable.length; i++) {
+        transformedArray.push(iterable[i]);
+    }
+    // if second parameter is provided
+    if (callback){
+        if(optionalThisObject){
+            return map(transformedArray, callback, optionalThisObject);
+        }
+        return map(transformedArray, callback);
+    }
+    return transformedArray;
+}
+
+function reverse(array){
+    if(Array.isArray(array)){
+        let reversedArray = [];
+        for(let i = array.length - 1; i > -1; i--){
+            reversedArray.push(array[i]);
+        }
+        // Hacky way to mutate the original array
+        for(let i = 0; i < reversedArray.length; i++){
+            array.shift();
+            array.push(reversedArray[i])
+        }
+        return array;
+    } else {
+        throw new TypeError("First argument must be iterable");
+    }
+}

@@ -32,8 +32,9 @@ The first four methods (forEach, filter, map, and reduce) are done following Wat
 18. Array.prototype.shift
 19. Array.prototype.unshift
 20. Array.prototype.fill
-21. Array.prototype.reverse
+21. Array.prototype.reverse --> in process
 22. Array.prototype.copyWithin
 23. Array.prototype.sort
 24. Array.prototype.splice
+25. Array.prototype.from --> finished
 

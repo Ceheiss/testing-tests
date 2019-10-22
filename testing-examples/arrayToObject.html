@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Array To Object Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script>
+    /*
+    The function should be able to take in an array and return an iterable object
+    example:
+    > arrayToObject(["a","b","c"]);
+    < {0: "a", 1: "b", 2:"c", length: 3}
+
+    - it should, obligatory, take an array as argument
+    - it should return an object that is not an array
+    - it should have as property all elements and their previous array location as keys
+    - it should have a length property with the amount of key-value pairs (except length)
+    */
+    
+    function arrayToObject(array){
+        let arrayLength = array.length;
+        let returnedObject = {};
+        if (Array.isArray(array)){
+            for(let i = 0; i < arrayLength; i++){
+                returnedObject[i] = array[i];
+            }
+            returnedObject.length = arrayLength;
+        } else {
+            throw new TypeError("Please provide an array");
+        }
+        return returnedObject;
+    }
+
+    tests({
+        'it should throw an error if argument is not an array': function(){
+            let isTypeError = false;
+            try {
+                arrayToObject("not an array");
+            } catch(e) {
+                isTypeError = (e instanceof TypeError);
+            }
+            eq(isTypeError, true);
+        },
+        'it should return an object that is not an array': function(){
+            let newObject = arrayToObject(["a","b"]);
+            eq(typeof newObject, "object");
+            eq(Array.isArray(newObject), false);
+        },
+        'it should return an object with all the elements in the passed array': function(){
+            let arrayToBeTransformed = ["hi"];
+            let newObject = arrayToObject(arrayToBeTransformed);
+            eq(newObject[0], "hi");
+        },
+        'it should return an object that has a length property with the number of elements': function(){
+            let arrayToBeTransformed = ["hi", "I", "will", "be", "a", "-not array-", "object"];
+            let newObject = arrayToObject(arrayToBeTransformed);
+            eq(newObject.hasOwnProperty(length), true);
+            eq(newObject.length, 7);
+        }
+    })
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
