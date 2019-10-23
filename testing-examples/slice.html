@@ -22,7 +22,6 @@
     */
     
     function slice(array, begin, end){
-        debugger;
         let endingValue = array.length;
         let startingValue = 0;
         let slicedArray = [];
@@ -35,8 +34,13 @@
                 startingValue = Number(begin) + Number(array.length);
             }
         }
-        if (end) {
-            endingValue = end;
+        // Take care of negatives values
+        if (end && (end < endingValue)) {
+            if (end < 0){
+                endingValue = array.length - end;
+            } else {
+                endingValue = end;
+            }
         }
         for(let i = startingValue; i < endingValue; i++){
             slicedArray.push(array[i]);
@@ -68,13 +72,19 @@
             eq(myFalconAndOstrich[1], "Ostrich");
         },
         'it should extract the third element through the second-to-last element in the sequence if slice(2,-1) ': function(){
-            fail();
+            let myAnimals = ["duck", "tiger", "wolf", "Falcon", "Ostrich"];
+            let myWolfAndFalcon = slice(myAnimals, 2, -1);
+            eq(myWolfAndFalcon[1], "Falcon");
         },
-        'it should extract through the whole array if end is omitted': function(){
-            fail();
+        'it should extract through the end of the sequence if end is omitted': function(){
+            let myAnimals = ["duck", "tiger", "wolf", "Falcon", "Ostrich"];
+            let mySlicedAnimals = slice(myAnimals, 1);
+            eq(mySlicedAnimals.length, 4);
         },
         'it should extract through the whole array if end is greater than array.length': function(){
-            fail();
+            let myAnimals = ["duck", "tiger", "wolf", "Falcon", "Ostrich"];
+            let mySlicedAnimals = slice(myAnimals, 1, 33);
+            eq(mySlicedAnimals.length, 4);
         },
     })
   </script>
