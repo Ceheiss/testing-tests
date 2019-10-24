@@ -8,6 +8,7 @@
 </head>
 <body>
   <script src="../simpletest.js"></script>
+  <script src="../rewriteLibrary.js"></script>
   <script>
     // Array.prototype.concat
     // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
@@ -22,7 +23,7 @@
       let returnedArray = [];
       // returns a shallow copy of the original array
       for(let i = 0; i < originalArray.length; i++){
-        returnedArray.push(originalArray[i]);
+        push(returnedArray, originalArray[i]);
       }
       // handles all the possible extra arguments
       for(let i = 1; i < arguments.length; i++){
@@ -30,11 +31,11 @@
         // handle if it's array
         if(Array.isArray(currentArgument)){
           for(let i = 0; i < currentArgument.length; i++){
-            returnedArray.push(currentArgument[i]);
+            push(returnedArray, currentArgument[i]);
           }
         // handle if it's not an array
         } else {
-          returnedArray.push(currentArgument);
+          push(returnedArray, currentArgument);
         }
       }
       return returnedArray

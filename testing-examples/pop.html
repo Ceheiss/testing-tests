@@ -13,30 +13,85 @@
     // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop
     /*
     Description:
-    
+    The pop() method removes the last element from an array and returns that element.
+    This method changes the length of the array.
 
-    Syntax
+    Syntax:
+    pop(iterable);
 
+    Return value:
+    The removed element from the array; undefined if the array is empty.
     
-    Parameters
-       
+    IMPORTANT: pop can be called in an array-like object by means of using call:
+    var myFish = {0:'angel', 1:'clown', 2:'mandarin', 3:'sturgeon', length: 4};
+    var popped = Array.prototype.pop.call(myFish);
+    Since we are defining functions and not methods (attached to a particular object rather the global).
+    The implementation will be to include the possibility without the call method.
     */
 
-    function pop(){
+    function pop(iterable){
+        let nonArrayAcceptableObject = (typeof iterable === 'object') && iterable.length && !Array.isArray(iterable); 
+        let acceptableIterable = Array.isArray(iterable) || nonArrayAcceptableObject;
+        
+        if (acceptableIterable) {
+             // handling array iterables
+        if (Array.isArray(iterable)){
+                if(iterable.length === 0) {
+                    return undefined;
+                } else {
+                    let lastElement = iterable[iterable.length - 1];
+                    iterable.length = iterable.length - 1;
+                    return lastElement;
+                }
+            } 
+            // handling iterables that are not arrays
+            if(nonArrayAcceptableObject){
+                let lastElement = iterable.length - 1;
+                let deletedElement = iterable[lastElement];
+                delete iterable[lastElement];
+                iterable.length--;
+                return deletedElement;
+            }
+        } else {
+            throw new TypeError("pop should take an array or iterable object");
+        }
     }
 
     tests({
-        '': function(){
-          fail();
+        'it should remove the last element of an array': function(){
+          let numberArray = [1,2,3];
+          pop(numberArray);
+          eq(numberArray.length, 2);
         },
-        '': function(){
-          fail();
+        'it should return the removed element in the array': function(){
+          let numberArray = [1,2,3];
+          let poppedValue = pop(numberArray);
+          eq(poppedValue, 3);
         },
-        '': function(){
-          fail();
+        'it should return undefined if the array is empty': function(){
+          let emptyArray = [];
+          let poppedValue = pop(emptyArray);
+          eq(poppedValue, undefined);
         },
-        '': function(){
-          fail();
+        'it should work with iterable object': function(){
+          let notAnArray = {0: 'a', 1: 'b', length: 2};
+          let poppedValue = pop(notAnArray);
+          eq(poppedValue, 'b');
+          eq(notAnArray.hasOwnProperty(1), false);
+        },
+        'it should update length property of iterable object after pop': function(){
+          let notAnArray = {0: 'a', 1: 'b', length: 2};
+          pop(notAnArray);
+          eq(notAnArray.length, 1);
+        },
+        'it should throw an error if the argument is not an accepted iterable object': function(){
+          let isTypeError = false;
+          try { 
+            pop("not an iterable object");
+          } catch(e) {
+            isTypeError = (e instanceof TypeError);
+          }
+          eq(isTypeError, true);
         },
     })
   </script>

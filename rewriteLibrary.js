@@ -137,3 +137,25 @@ function arrayToObject(array){
     }
     return returnedObject;
 }
+
+function push(iterable){
+  let isAnAcceptableObject = (typeof iterable === 'object') && iterable.length; 
+  let isIterableAcceptable = Array.isArray(iterable) || isAnAcceptableObject;
+
+  if(isIterableAcceptable){
+    let startingPoint = iterable.length;
+    if (arguments.length > 1) {
+      for(let i = 1; i < arguments.length; i++){
+        iterable[startingPoint] = arguments[i];
+        startingPoint++;
+      }
+    }
+    // handling iterables that are not arrays
+    if(!Array.isArray(iterable) && (typeof iterable === 'object')){
+      iterable.length += arguments.length - 1;
+    }
+    return iterable.length;
+  } else {
+    throw new TypeError("Enter an array or an iterable object");
+  }
+}

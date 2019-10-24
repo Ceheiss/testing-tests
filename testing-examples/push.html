@@ -16,19 +16,21 @@
     The push() method adds one or more elements to the end of
     an array and returns the new length of the array.
 
-    Syntax
-    arr.push(element1[, ...[, elementN]])
+    Syntax:
+    push(iterable, element1[, ...[, elementN]])
     
-    Parameters
+    Parameters:
         elementN
         The elements to add to the end of the array.
         Return value
         **** The new length property of the object upon which the method was called.
 
-    - it should add the element passed to the end of the array
-    - it should accept multiple values at one
-    - it should return the length property of the object on which the method was called
-    - can be used will call or apply if object resembles an array
+    IMPORTANT: push can be called in an array-like object by means of using call:
+    let tester = {0: 1, 1: "a", length: 2}
+    let push = Array.prototype.push.call(tester, "b");
+    returned -> {0: 1, 1: "a", 2: "b", length: 3}
+    Since we are defining functions and not methods (attached to a particular object rather the global).
+    The implementation will be to include the possibility without the call method.
     */
 
     function push(iterable){

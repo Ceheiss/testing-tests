@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Unshift Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script>
+    // Array.prototype.unshift
+    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift
+    /*
+    Description:
+    The push() method adds one or more elements to the end of
+    an array and returns the new length of the array.
+
+    Syntax:
+    push(iterable, element1[, ...[, elementN]])
+    
+    Parameters:
+        elementN
+        The elements to add to the end of the array.
+        Return value
+        **** The new length property of the object upon which the method was called.
+
+    IMPORTANT: push can be called in an array-like object by means of using call:
+    let tester = {0: 1, 1: "a", length: 2}
+    let push = Array.prototype.push.call(tester, "b");
+    returned -> {0: 1, 1: "a", 2: "b", length: 3}
+    Since we are defining functions and not methods (attached to a particular object rather the global).
+    The implementation will be to include the possibility without the call method.
+    */
+
+    function unshift(){
+    }
+
+    tests({
+        'it should add the element passed to the end of the array': function(){
+        //   let numberArray = [1,2,3];
+        //   push(numberArray, 4);
+        //   eq(numberArray.length, 4);
+        //   eq(numberArray[3], 4);
+            fail();
+        },
+        'it should accept multiple values at one': function() {
+        //   let numberArray = [1,2,3];
+        //   push(numberArray, 4, 5, 6);
+        //   eq(numberArray.length, 6);
+        //   eq(numberArray[5], 6);
+            fail();
+        },
+        'it should return the length property of the object on which the method was called': function() {
+        //   let returnedPushValue = push([1, 2, 3], 4, 5, 6);
+        //   eq(returnedPushValue, 6);
+            fail();
+        },
+        'it can be used if object resembles an array': function() {
+        //   let notAnArray = {0: 'a', 1: 'b', length: 2};
+        //   push(notAnArray, 'c');
+        //   eq(notAnArray[2], 'c');
+            fail();
+        },
+        'it should return the correct length if iterable is not an array': function() {
+        //   let notAnArray = {0: 'a', 1: 'b', length: 2};
+        //   push(notAnArray, 'c', 'd', 'e');
+        //   eq(notAnArray.length, 5);
+            fail();
+        },
+        'it should throw an error if first argument passed is not an array or object':function(){
+        //   let isTypeError = false;
+        //     try {
+        //         push("hello");
+        //     } catch(e) {
+        //         isTypeError = (e instanceof TypeError);
+        //     }
+        //     eq(isTypeError, true);
+            fail();
+        },
+    })
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

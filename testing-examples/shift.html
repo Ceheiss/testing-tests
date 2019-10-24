@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Shift Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script>
+    // Array.prototype.shift
+    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift
+    /*
+    Description:
+    The shift() method removes the first element from an array and returns that removed element.
+    This method changes the length of the array.
+
+    Syntax:
+    shift(iterable);
+
+    Return value:
+    The removed element from the array; undefined if the array is empty.
+    
+    IMPORTANT: shift can be called in an array-like object by means of using call:
+    var myFish = {0:'angel', 1:'clown', 2:'mandarin', 3:'sturgeon', length: 4};
+    var popped = Array.prototype.shift.call(myFish);
+    Since we are defining functions and not methods (attached to a particular object rather the global).
+    The implementation will be to include the possibility without the call method.
+    */
+
+    function shift(iterable){
+    }
+
+    tests({
+        'it should remove the last element of an array': function(){
+            let numberArray = [1,2,3];
+            pop(numberArray);
+            eq(numberArray.length, 2);
+        },
+        'it should return the removed element in the array': function(){
+        //   let numberArray = [1,2,3];
+        //   let poppedValue = pop(numberArray);
+        //   eq(poppedValue, 3);
+            fail();
+        },
+        'it should return undefined if the array is empty': function(){
+        //   let emptyArray = [];
+        //   let poppedValue = pop(emptyArray);
+        //   eq(poppedValue, undefined);
+            fail();
+        },
+        'it should work with iterable object': function(){
+        //   let notAnArray = {0: 'a', 1: 'b', length: 2};
+        //   let poppedValue = pop(notAnArray);
+        //   eq(poppedValue, 'b');
+        //   eq(notAnArray.hasOwnProperty(1), false);
+            fail();
+        },
+        'it should update length property of iterable object after pop': function(){
+        //   let notAnArray = {0: 'a', 1: 'b', length: 2};
+        //   pop(notAnArray);
+        //   eq(notAnArray.length, 1);
+            fail();
+        },
+        'it should throw an error if the argument is not an accepted iterable object': function(){
+        //   let isTypeError = false;
+        //   try { 
+        //     pop("not an iterable object");
+        //   } catch(e) {
+        //     isTypeError = (e instanceof TypeError);
+        //   }
+        //   eq(isTypeError, true);
+            fail();
+        },
+    })
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

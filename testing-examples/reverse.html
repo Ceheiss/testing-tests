@@ -29,12 +29,12 @@
         if(Array.isArray(iterable)){
             let reversedArray = [];
             for(let i = iterable.length - 1; i > -1; i--){
-                reversedArray.push(iterable[i]);
+                push(reversedArray, iterable[i]);
             }
             // Hacky way to mutate the original array
             for(let i = 0; i < reversedArray.length; i++){
                 iterable.shift();
-                iterable.push(reversedArray[i])
+                push(iterable, reversedArray[i]);
             }
             // Back to object
             if(usedToBeObject){
