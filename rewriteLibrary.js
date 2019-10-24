@@ -107,21 +107,30 @@ function arrayFrom(iterable, callback, optionalThisObject){
     return transformedArray;
 }
 
-function reverse(array){
-    if(Array.isArray(array)){
-        let reversedArray = [];
-        for(let i = array.length - 1; i > -1; i--){
-            reversedArray.push(array[i]);
-        }
-        // Hacky way to mutate the original array
-        for(let i = 0; i < reversedArray.length; i++){
-            array.shift();
-            array.push(reversedArray[i])
-        }
-        return array;
-    } else {
-        throw new TypeError("First argument must be iterable");
-    }
+function reverse(iterable){
+  let usedToBeObject = false;
+  if((typeof iterable === "object") && (!Array.isArray(iterable))){
+      usedToBeObject = true;
+      iterable = arrayFrom(iterable);
+  }
+  if(Array.isArray(iterable)){
+      let reversedArray = [];
+      for(let i = iterable.length - 1; i > -1; i--){
+          push(reversedArray, iterable[i]);
+      }
+      // Hacky way to mutate the original array
+      for(let i = 0; i < reversedArray.length; i++){
+          iterable.shift();
+          push(iterable, reversedArray[i]);
+      }
+      // Back to object
+      if(usedToBeObject){
+          iterable = arrayToObject(iterable);
+      }
+      return iterable;
+  } else {
+      throw new TypeError("First argument must be iterable");
+  }
 }
 
 function arrayToObject(array){
@@ -157,5 +166,33 @@ function push(iterable){
     return iterable.length;
   } else {
     throw new TypeError("Enter an array or an iterable object");
+  }
+}
+
+function pop(iterable){
+  let nonArrayAcceptableObject = (typeof iterable === 'object') && iterable.length && !Array.isArray(iterable); 
+  let acceptableIterable = Array.isArray(iterable) || nonArrayAcceptableObject;
+  
+  if (acceptableIterable) {
+       // handling array iterables
+  if (Array.isArray(iterable)){
+          if(iterable.length === 0) {
+              return undefined;
+          } else {
+              let lastElement = iterable[iterable.length - 1];
+              iterable.length = iterable.length - 1;
+              return lastElement;
+          }
+      } 
+      // handling iterables that are not arrays
+      if(nonArrayAcceptableObject){
+          let lastElement = iterable.length - 1;
+          let deletedElement = iterable[lastElement];
+          delete iterable[lastElement];
+          iterable.length--;
+          return deletedElement;
+      }
+  } else {
+      throw new TypeError("pop should take an array or iterable object");
   }
 }

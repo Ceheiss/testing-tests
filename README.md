@@ -31,8 +31,8 @@ Finished means it passes all the tests, not perfect code. There are some solutio
 15. Array.prototype.join --> finished
 16. Array.prototype.push --> finished
 17. Array.prototype.pop --> finished
-18. Array.prototype.shift --> in process
-19. Array.prototype.unshift
+18. Array.prototype.shift --> finished
+19. Array.prototype.unshift --> in process
 20. Array.prototype.fill
 21. Array.prototype.reverse --> finished
 22. Array.prototype.copyWithin
