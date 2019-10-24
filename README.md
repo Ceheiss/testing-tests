@@ -10,6 +10,8 @@ The idea is to star reconstructing array methods such as forEach, filter, map an
 The first four methods (forEach, filter, map, and reduce) are done following Watch and Code "Testing" section (although I try the exercises before the videos, so differences are expected). Whatever follows next are exercises on my own.
 
 
+Finished means it passes all the tests, not perfect code. There are some solutions I think could be better and refactored, and I will in due time.
+
 ---
 ## To be completed:
 1. Array.prototype.forEach --> finished
@@ -27,12 +29,12 @@ The first four methods (forEach, filter, map, and reduce) are done following Wat
 13. Array.prototype.includes --> finished
 14. Array.prototype.slice --> finished
 15. Array.prototype.join --> finished
-16. Array.prototype.push --> in process
-17. Array.prototype.pop
+16. Array.prototype.push --> finished
+17. Array.prototype.pop --> in process
 18. Array.prototype.shift
 19. Array.prototype.unshift
 20. Array.prototype.fill
-21. Array.prototype.reverse --> in process
+21. Array.prototype.reverse --> finished
 22. Array.prototype.copyWithin
 23. Array.prototype.sort
 24. Array.prototype.splice

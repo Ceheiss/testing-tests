@@ -23,14 +23,71 @@
         elementN
         The elements to add to the end of the array.
         Return value
-        The new length property of the object upon which the method was called.
+        **** The new length property of the object upon which the method was called.
+
+    - it should add the element passed to the end of the array
+    - it should accept multiple values at one
+    - it should return the length property of the object on which the method was called
+    - can be used will call or apply if object resembles an array
     */
-    
-    function push(){
+
+    function push(iterable){
+      let isAnAcceptableObject = (typeof iterable === 'object') && iterable.length; 
+      let isIterableAcceptable = Array.isArray(iterable) || isAnAcceptableObject;
+
+      if(isIterableAcceptable){
+        let startingPoint = iterable.length;
+        if (arguments.length > 1) {
+          for(let i = 1; i < arguments.length; i++){
+            iterable[startingPoint] = arguments[i];
+            startingPoint++;
+          }
+        }
+        // handling iterables that are not arrays
+        if(!Array.isArray(iterable) && (typeof iterable === 'object')){
+          iterable.length += arguments.length - 1;
+        }
+        return iterable.length;
+      } else {
+        throw new TypeError("Enter an array or an iterable object");
+      }
     }
 
     tests({
-        '': function(){
+        'it should add the element passed to the end of the array': function(){
+          let numberArray = [1,2,3];
+          push(numberArray, 4);
+          eq(numberArray.length, 4);
+          eq(numberArray[3], 4);
+        },
+        'it should accept multiple values at one': function() {
+          let numberArray = [1,2,3];
+          push(numberArray, 4, 5, 6);
+          eq(numberArray.length, 6);
+          eq(numberArray[5], 6);
+        },
+        'it should return the length property of the object on which the method was called': function() {
+          let returnedPushValue = push([1, 2, 3], 4, 5, 6);
+          eq(returnedPushValue, 6);
+        },
+        'it can be used if object resembles an array': function() {
+          let notAnArray = {0: 'a', 1: 'b', length: 2};
+          push(notAnArray, 'c');
+          eq(notAnArray[2], 'c');
+        },
+        'it should return the correct length if iterable is not an array': function() {
+          let notAnArray = {0: 'a', 1: 'b', length: 2};
+          push(notAnArray, 'c', 'd', 'e');
+          eq(notAnArray.length, 5);
+        },
+        'it should throw an error if first argument passed is not an array or object':function(){
+          let isTypeError = false;
+            try {
+                push("hello");
+            } catch(e) {
+                isTypeError = (e instanceof TypeError);
+            }
+            eq(isTypeError, true);
         },
     })
   </script>
