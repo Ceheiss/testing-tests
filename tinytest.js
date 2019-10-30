@@ -67,7 +67,7 @@ var TinyTest = {
         if (!value) {
             throw new Error('assert(): ' + msg);
         }
-    },
+    }, 
 
     assertEquals: function(expected, actual) {
         if (expected != actual) {

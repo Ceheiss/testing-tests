@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ObjectUnshift Function Testing</title>
+</head>
+<body>
+  <script src="../simpletest.js"></script>
+  <script src="../rewriteLibrary.js"></script>
+  <script>
+    // objectUnshift
+    /*
+    Description:
+    The objectUnshift() method adds one or more elements to the 
+    beginning of an array and returns the new length of the object.
+    */
+
+    
+    function objectUnshift(object){
+        let acceptableObject = (typeof object === 'object') && object.length && !Array.isArray(object);
+        let newElementsNumber = arguments.length - 1;
+        let originalObjectLength = object.length;
+        let newLength = newElementsNumber + originalObjectLength;
+        delete object.length;
+        if (acceptableObject) {
+            for (let i = originalObjectLength; i > -1; i--) {
+                object[i + newElementsNumber - 1] = object[i - 1];
+            }
+            for (let i = newElementsNumber - 1; i > -1; i--) {
+                object[i] = arguments[i + 1];
+            }
+            object.length = newLength;
+        }
+        return object.length;
+    }
+
+    tests({
+        'it should add the element passed to the start of the object': function(){
+            let arrayLikeObject = {0: 'a', 1: 'b', length: 2};
+            objectUnshift(arrayLikeObject, 'c');
+            eq(arrayLikeObject.length, 3);
+            eq(arrayLikeObject[0], 'c');
+        },
+        'it can accept multiple values': function() {
+            let arrayLikeObject = {0: 'a', 1: 'b', length: 2};
+            objectUnshift(arrayLikeObject, 'c', 'd', 'f');
+            console.log(arrayLikeObject);
+            eq(arrayLikeObject[0], 'c');
+        },
+        'it should return the correct length if iterable is not an array': function() {
+            let arrayLikeObject = {0: 'a', 1: 'b', length: 2};
+            objectUnshift(arrayLikeObject, 'c');
+            eq(arrayLikeObject.length, 3);
+        }
+    })
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

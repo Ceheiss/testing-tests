@@ -1,107 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>IndexOf Function Testing</title>
-</head>
-<body>
-  <script src="../simpletest.js"></script>
-  <script>
-    // Array.prototype.indexOf
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexof
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>IndexOf Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script>
+      // Array.prototype.indexOf
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/indexof
+      /*
     Description:
     The indexOf() method returns the first index at which a given element can be found in the array, or -1 if it is not present.
     Syntax:
     arr.indexOf(searchElement[, fromIndex])
     
     FromIndex (optional)
-    The index to start the search at. If the index is greater than or equal to the array's length, -1 is returned, which means the array will not be searched. If the provided index value is a negative number, it is taken as the offset from the end of the array. Note: if the provided index is negative, the array is still searched from front to back. If the provided index is 0, then the whole array will be searched. Default: 0 (entire array is searched).
+    The index to start the search at. If the index is greater than or equal to the array's length,
+    -1 is returned, which means the array will not be searched. 
+    If the provided index value is a negative number, it is taken as the offset from the end of the array.
+    Note: if the provided index is negative, the array is still searched from front to back. 
+    If the provided index is 0, then the whole array will be searched. Default: 0 (entire array is searched).
     */
-    
-    function indexOf(array, searchElement, fromIndex){
-      if(Array.isArray(array)){
-        // default value
-        let startingIndex = 0;
-        if (fromIndex) {
-          startingIndex = fromIndex;
-        }
-        let returnedValue;
-        if (fromIndex >= array.length) {
-          return -1;
-        }
-        if (Array.isArray(array)){
-          for(let i = startingIndex; i < array.length; i++){
-            if(array[i] === searchElement){
+
+      function indexOf(array, searchElement, fromIndex) {
+        if (Array.isArray(array)) {
+          // default value
+          let startingIndex = 0;
+          if (fromIndex) {
+            fromIndex = parseInt(fromIndex);
+            // check if it's NaN
+            if (fromIndex !== fromIndex) {
+              startingIndex = 0;
+            } else {
+              startingIndex = fromIndex;
+            }
+          }
+          let returnedValue;
+          if (fromIndex >= array.length) {
+            return -1;
+          }
+          for (let i = startingIndex; i < array.length; i++) {
+            if (array[i] === searchElement) {
               returnedValue = i;
-              return returnedValue
+              return returnedValue;
             }
           }
           return -1;
+        } else {
+          throw new TypeError("First argument should be an array");
         }
-      } else {
-        throw new TypeError('First argument should be an array');
       }
-    };
 
-    tests({
-      'it should return the index of searched element in the array':function(){
-        let indexValue = indexOf(["a", "b", "c"], "c");
-        eq(indexValue, 2);
-      },
-      'it should return -1 if the element is not found in the array':function(){
-        let indexValue = indexOf(["a", "b", "c"], "e");
-        eq(indexValue, -1);
-      },
-      'It should return -1 if the indexFrom is greater than or equal to the array\'s length':function(){
-        let indexValue = indexOf(["a", "b", "c"], "a", 3);
-        eq(indexValue, -1);
-      },
-      'it should start searching for the matching element starting on the provided indexOf value': function(){
-        let indexValue = indexOf(["a", "b", "c"], "a", 2);
-        eq(indexValue, -1);
-      },
-      'it should search the whole id if indexFrom is 0': function(){
-        let indexValue = indexOf(["a", "b", "c"], "c", 0);
-        eq(indexValue, 2);
-      },
-      'it should search the whole id from from to back if indexFrom is a negative value': function(){
-        let indexValue = indexOf(["a", "b", "c"], "b", -5);
-        eq(indexValue, 1);
-      },
-      'it should throw an error if first argument is not an array': function(){
-        let isTypeError = false;
-        try {
-          indexOf("string", 2);
-        } catch(e){
-          isTypeError = (e instanceof TypeError);
+      tests({
+        "it should return the index of searched element in the array": function() {
+          let indexValue = indexOf(["a", "b", "c"], "c");
+          eq(indexValue, 2);
+        },
+        "it should return -1 if the searched element is not found in the array": function() {
+          let indexValue = indexOf(["a", "b", "c"], "e");
+          eq(indexValue, -1);
+        },
+        "It should return -1 if the indexFrom is greater than or equal to the array's length": function() {
+          let indexValue = indexOf(["a", "b", "c"], "a", 3);
+          eq(indexValue, -1);
+        },
+        "it should start searching for the matching element starting on the provided indexOf value": function() {
+          let indexValue = indexOf(["a", "b", "c"], "a", 2);
+          eq(indexValue, -1);
+        },
+        "it should search the whole array if indexFrom is 0": function() {
+          let indexValue = indexOf(["a", "b", "c"], "c", 0);
+          eq(indexValue, 2);
+        },
+        "it should search the whole id from from to back if indexFrom is a negative value": function() {
+          let indexValue = indexOf(["a", "b", "c"], "b", -5);
+          eq(indexValue, 1);
+        },
+        "it should parse fromIndex if it's a string containing a number": function() {
+          let indexValue = indexOf(["a", "b", "c"], "b", "1");
+          eq(indexValue, 1);
+        },
+        "it should search all the array if indexFrom can't be parsed into a number": function() {
+          let indexValue = indexOf(["a", "b", "c"], "b", "hello");
+          eq(indexValue, 1);
+        },
+        "it should throw an error if first argument is not an array": function() {
+          let isTypeError = false;
+          try {
+            indexOf("string", 2);
+          } catch (e) {
+            isTypeError = e instanceof TypeError;
+          }
+          eq(isTypeError, true);
         }
-        eq(isTypeError, true);
-      }
-    })
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

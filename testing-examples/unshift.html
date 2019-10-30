@@ -27,34 +27,38 @@
         **** The new length property of the object upon which the method was called.
     */
 
+    
     function unshift(iterable){
         let nonArrayAcceptableObject = (typeof iterable === 'object') && iterable.length && !Array.isArray(iterable); 
         let acceptableIterable = Array.isArray(iterable) || nonArrayAcceptableObject;
-        let objectTracker = false;
-        // handle if it's not an array;
-        if(nonArrayAcceptableObject){
-            objectTracker = true;
-            iterable = arrayFrom(iterable);
-        }
-        let iterableLength = iterable.length;
-        let arr = [];
+        let passedArguments = [];
         for(let i = 1; i < arguments.length; i++){
-            push(arr, arguments[i]);
+            push(passedArguments, arguments[i]);
         }
-        forEach(iterable, function(el){
-            push(arr, el);
-        });
-        for(let i = 0; i < iterableLength; i++){
-            pop(iterable);
+        if (acceptableIterable){
+            // handle if it's not an array;
+            if(nonArrayAcceptableObject){
+                objectUnshift(iterable, ...passedArguments);
+            } else {
+                let iterableLength = iterable.length;
+                let arr = [];
+                for(let i = 0; i < passedArguments.length; i++){
+                    push(arr, passedArguments[i]);
+                }
+                forEach(iterable, function(el){
+                    push(arr, el);
+                });
+                for(let i = 0; i < iterableLength; i++){
+                    pop(iterable);
+                }
+                forEach(arr, function(el){
+                    push(iterable, el);
+                });
+            }
+            return iterable.length;
+        } else {
+            throw new TypeError("Enter an Array or an Array like Object as first parameter");
         }
-        forEach(arr, function(el){
-            push(iterable, el);
-        });
-        // revert iterable to original type;
-        if(objectTracker){
-            arrayToObject(iterable);
-        }
-        return iterable.length;
     }
 
     tests({
@@ -67,6 +71,7 @@
         'it should accept multiple values at one': function() {
             let numberArray = [1,2,3];
             unshift(numberArray, 4, 5, 6);
+
             eq(numberArray.length, 6);
             eq(numberArray[2], 6);
         },
@@ -75,7 +80,6 @@
             eq(returnedUnshiftValue, 6);
         },
         'it can be used if object resembles an array': function() {
-            debugger;
             let notAnArray = {0: 'a', 1: 'b', length: 2};
             unshift(notAnArray, 'c', 'd', 'f');
             eq(notAnArray[0], 'c');
@@ -86,14 +90,13 @@
             eq(notAnArray.length, 5);
         },
         'it should throw an error if first argument passed is not an array or object':function(){
-            // let isTypeError = false;
-            // try {
-            //     unshift("hello");
-            // } catch(e) {
-            //     isTypeError = (e instanceof TypeError);
-            // }
-            // eq(isTypeError, true);
-            fail();
+            let isTypeError = false;
+            try {
+                unshift("hello");
+            } catch(e) {
+                isTypeError = (e instanceof TypeError);
+            }
+            eq(isTypeError, true);
         },
     })
   </script>

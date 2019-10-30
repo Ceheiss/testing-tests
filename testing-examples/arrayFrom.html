@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Array.from Function Testing</title>
-</head>
-<body>
-  <!-- This is to test the conversion of NodeList later-->
-  <div id="node-list-tester">
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
-  <script src="../simpletest.js"></script>
-  <script src="../rewriteLibrary.js"></script>
-  <script>
-    // Array.prototype.from
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Array.from Function Testing</title>
+  </head>
+  <body>
+    <!-- This is to test the conversion of NodeList later-->
+    <div id="node-list-tester">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <script src="../simpletest.js"></script>
+    <script src="../rewriteLibrary.js"></script>
+    <script>
+      // Array.prototype.from
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
+      /*
     - it should transform a numbered object with a length property {0: 'a', 1: 'b', 2: 'c', length: 3} into an array ['a','b','c'];
     - it should fill unassigned values in the object with undefined;
     - it should return an empty array if iterable passed is an object without length property;
@@ -28,88 +28,72 @@
     - it should accept a second argument that would map the transformed array;
     - it should accept an additonal 'this' object if callback is provided
     */
-    
-    function arrayFrom(iterable, callback, optionalThisObject){
+
+      function arrayFrom(iterable, callback, optionalThisObject) {
         let transformedArray = [];
-        if((typeof iterable === "object") && (!iterable.hasOwnProperty(length))){
-            return transformedArray;
+        if (typeof iterable === "object" && !iterable.hasOwnProperty(length)) {
+          return transformedArray;
         }
         for (let i = 0; i < iterable.length; i++) {
-            transformedArray.push(iterable[i]);
+          transformedArray.push(iterable[i]);
         }
         // if second parameter is provided
-        if (callback){
-            if(optionalThisObject){
-                return map(transformedArray, callback, optionalThisObject);
-            }
-            return map(transformedArray, callback);
+        if (callback) {
+          if (optionalThisObject) {
+            return map(transformedArray, callback, optionalThisObject);
+          }
+          return map(transformedArray, callback);
         }
         return transformedArray;
-    }
+      }
 
-    tests({
-        'it should transform a numbered object into an array': function(){
-            let objectToBeArray = {0: 'a', 1: 'b', length: 2};
-            let transformedArray = arrayFrom(objectToBeArray);
-            eq(transformedArray.length, 2);
-            eq(Array.isArray(transformedArray), true);
+      tests({
+        "it should transform a numbered object into an array": function() {
+          let objectToBeArray = { 0: "a", 1: "b", length: 2 };
+          let transformedArray = arrayFrom(objectToBeArray);
+          eq(transformedArray.length, 2);
+          eq(Array.isArray(transformedArray), true);
         },
-        'it should fill unassigned values in the object with undefined': function(){
-            let objectToBeArray = {0: 'a', 1: 'b', length: 5};
-            let transformedArray = arrayFrom(objectToBeArray);
-            eq(transformedArray.length, 5);
-            eq(transformedArray[4], undefined);
+        "it should fill unassigned values in the object with undefined": function() {
+          let objectToBeArray = { 0: "a", 1: "b", length: 5 };
+          let transformedArray = arrayFrom(objectToBeArray);
+          eq(transformedArray.length, 5);
+          eq(transformedArray[4], undefined);
         },
-        'it should return an empty array if iterable passed is an object without length property': function(){
-            let objectToBeArray = {0: 'a', 1: 'b'};
-            let transformedArray = arrayFrom(objectToBeArray);
-            eq(transformedArray.length, 0);
+        "it should return an empty array if iterable passed is an object without length property": function() {
+          let objectToBeArray = { 0: "a", 1: "b" };
+          let transformedArray = arrayFrom(objectToBeArray);
+          eq(transformedArray.length, 0);
         },
-        'it should transform a string into an array': function(){
-            let stringToBeArray = "this is string will be an array";
-            let transformedArray = arrayFrom(stringToBeArray);
-            eq(Array.isArray(transformedArray), true);
+        "it should transform a string into an array": function() {
+          let stringToBeArray = "this is string will be an array";
+          let transformedArray = arrayFrom(stringToBeArray);
+          eq(Array.isArray(transformedArray), true);
         },
-        'it should transform a nodeList into an array': function(){
-            let nodeListToBeArray = document.getElementById("node-list-tester").children;
-            let transformedArray = arrayFrom(nodeListToBeArray);
-            eq(Array.isArray(transformedArray), true);
-            eq(Array.isArray(nodeListToBeArray), false);
+        "it should transform a nodeList into an array": function() {
+          let nodeListToBeArray = document.getElementById("node-list-tester")
+            .children;
+          let transformedArray = arrayFrom(nodeListToBeArray);
+          eq(Array.isArray(transformedArray), true);
+          eq(Array.isArray(nodeListToBeArray), false);
         },
-        'it should accept a second argument that would map the transformed array': function(){
-            let objectToBeArray = {0: 25, 1: 50, length: 2};
-            let mappedArray = arrayFrom(objectToBeArray, el => el * 2);
-            eq(mappedArray[0], 50);
-            eq(mappedArray[1], 100);
+        "it should accept a second argument that would map the transformed array": function() {
+          let objectToBeArray = { 0: 25, 1: 50, length: 2 };
+          let mappedArray = arrayFrom(objectToBeArray, el => el * 2);
+          eq(mappedArray[0], 50);
+          eq(mappedArray[1], 100);
         },
-        'it should accept an additonal "this" object to use in provided callback': function(){
-            let objectToBeArray = {0: 25, 1: 50, length: 2};
-            let mappedArray = arrayFrom(objectToBeArray, function(){
-                eq(this.description, 'I should be accessible in the callback')
-            }, {description: 'I should be accessible in the callback'});
+        'it should accept an additonal "this" object to use in provided callback': function() {
+          let objectToBeArray = { 0: 25, 1: 50, length: 2 };
+          let mappedArray = arrayFrom(
+            objectToBeArray,
+            function() {
+              eq(this.description, "I should be accessible in the callback");
+            },
+            { description: "I should be accessible in the callback" }
+          );
         }
-    })
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

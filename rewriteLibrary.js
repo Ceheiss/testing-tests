@@ -196,3 +196,21 @@ function pop(iterable){
       throw new TypeError("pop should take an array or iterable object");
   }
 }
+
+function objectUnshift(object){
+  let acceptableObject = (typeof object === 'object') && object.length && !Array.isArray(object);
+  let newElementsNumber = arguments.length - 1;
+  let originalObjectLength = object.length;
+  let newLength = newElementsNumber + originalObjectLength;
+  delete object.length;
+  if (acceptableObject) {
+      for (let i = originalObjectLength; i > -1; i--) {
+          object[i + newElementsNumber - 1] = object[i - 1];
+      }
+      for (let i = newElementsNumber - 1; i > -1; i--) {
+          object[i] = arguments[i + 1];
+      }
+      object.length = newLength;
+  }
+  return object.length;
+}
