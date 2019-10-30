@@ -32,14 +32,15 @@ Finished means it passes all the tests, not perfect code. There are some solutio
 16. Array.prototype.push --> finished
 17. Array.prototype.pop --> finished
 18. Array.prototype.shift --> finished
-19. Array.prototype.unshift --> in process
-20. Array.prototype.fill
+19. Array.prototype.unshift --> finished
+20. Array.prototype.fill --> in process
 21. Array.prototype.reverse --> finished
 22. Array.prototype.copyWithin
 23. Array.prototype.sort
 24. Array.prototype.splice
 25. Array.prototype.from --> finished
 26. *arrayToObject --> finished
+26. *objectUnshift --> finished
 
 * arrayToObject is a helper function that takes an  array and returns an iterable object:
 ```javascript
@@ -48,4 +49,5 @@ Finished means it passes all the tests, not perfect code. There are some solutio
     // now turnedIntoObject is:
     {0: 'a', 1: 'b', 2: 'c', index: 3};
 ```
+* objectUnshift is another method to unshift objects. Is integrated into unshift, so there is no need to call it by it's own.
 
