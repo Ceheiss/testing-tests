@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Join Function Testing</title>
-</head>
-<body>
-  <script src="../simpletest.js"></script>
-  <script>
-    // Array.prototype.join
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Join Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script>
+      // Array.prototype.join
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join
+      /*
     Description:
     The join() method creates and returns a new string by concatenating
     all of the elements in an array (or an array-like object), separated
@@ -27,68 +27,47 @@
     - it should use a comma as a default separator
     - it should handlem different types of separators
     */
-    
-    function join(array, separator){
+
+      function join(array, separator) {
         let separatingValue = ",";
-        if (separator){
-            separatingValue = separator;
+        if (separator) {
+          separatingValue = separator;
         }
         let returnedString = "";
-        for (let i = 0; i < array.length; i++){
-            returnedString += array[i];
-            if(i < (array.length - 1)){
-                returnedString += separatingValue;
-            }
+        for (let i = 0; i < array.length; i++) {
+          returnedString += array[i];
+          if (i < array.length - 1) {
+            returnedString += separatingValue;
+          }
         }
         return returnedString;
-    }
+      }
 
-    tests({
-        'it should return a string': function(){
-            let returnedString = join([1,2,3]);
-            eq(typeof returnedString, "string");   
+      tests({
+        "it should return a string": function() {
+          let returnedString = join([1, 2, 3]);
+          eq(typeof returnedString, "string");
         },
-        'it should return all the elements in the array': function(){
-            let originalArray = [1,2,3];
-            let returnedString = join(originalArray);
-            eq(returnedString[returnedString.length - 1], "3");   
+        "it should return all the elements in the array": function() {
+          let originalArray = [1, 2, 3];
+          let returnedString = join(originalArray);
+          eq(returnedString[returnedString.length - 1], "3");
         },
-        'it should accept a separator that will be appended after each element but the last one': function(){
-            let returnedString = join([1,2,3],',');
-            eq(returnedString, '1,2,3');   
+        "it should accept a separator that will be appended after each element but the last one": function() {
+          let returnedString = join([1, 2, 3], ",");
+          eq(returnedString, "1,2,3");
         },
-        'it should use a comma as a default separator': function(){
-            let originalArray = [1,2];
-            let returnedString = join(originalArray);
-            eq(returnedString[1], ",");
+        "it should use a comma as a default separator": function() {
+          let originalArray = [1, 2];
+          let returnedString = join(originalArray);
+          eq(returnedString[1], ",");
         },
-        'it should handle different types of separators': function(){
-            let originalArray = [1,2];
-            let returnedString = join(originalArray, 3);
-            eq(returnedString[1], "3");  
-        },
-    })
-  </script>
-</body>
+        "it should handle different types of separators": function() {
+          let originalArray = [1, 2];
+          let returnedString = join(originalArray, 3);
+          eq(returnedString[1], "3");
+        }
+      });
+    </script>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

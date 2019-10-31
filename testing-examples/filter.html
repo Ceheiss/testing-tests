@@ -1,120 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Filter Function Testing</title>
-</head>
-<body>
-  <script src="../tinytest.js"></script>
-  <script>
-  // Here goes all the code for filter method
-  // Example 1:
-  // filter([1,2,3], function(){
-  //  console.log('hi'); 
-  // });
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Filter Function Testing</title>
+  </head>
+  <body>
+    <script src="../tinytest.js"></script>
+    <script src="../rewriteLibrary.js"></script>
+    <script>
+      // Here goes all the code for filter method
+      // Example 1:
+      // filter([1,2,3], function(){
+      //  console.log('hi');
+      // });
 
-  // Example 2:
-  // filter([1,2,3], function(number){
-  //  console.log(number); 
-  // });
+      // Example 2:
+      // filter([1,2,3], function(number){
+      //  console.log(number);
+      // });
 
-  // Example 3:
-  // The index of the current element being processed in the array
-  // filter([1,2,3], function(number, index){
-  //  console.log(index);
-  // });
+      // Example 3:
+      // The index of the current element being processed in the array
+      // filter([1,2,3], function(number, index){
+      //  console.log(index);
+      // });
 
-  // Example 4:
-  // The index of the current element being processed in the array
-  // filter([1,2,3], function(number, index, originalArray){
-  //  console.log(originalArray);
-  // });
-  
-  // Example 5:
-  // Should be able to pass an optional "this" value
-  // filter([1,2,3], function(number, index, originalArray){
-  //  console.log(this.message);
-  // }, {message: "This is accessible"});
+      // Example 4:
+      // The index of the current element being processed in the array
+      // filter([1,2,3], function(number, index, originalArray){
+      //  console.log(originalArray);
+      // });
 
-  // Example 6:
-  // Has to return an array
-  // filter([], function(){}).Array(isArray) === true;
+      // Example 5:
+      // Should be able to pass an optional "this" value
+      // filter([1,2,3], function(number, index, originalArray){
+      //  console.log(this.message);
+      // }, {message: "This is accessible"});
 
-  // Example 7:
-  // Has to return filtered values
-  // filter([1,2,3], function(number, index, originalArray){
-  //    return number > 1;
-  // });
-  // > [2,3]
+      // Example 6:
+      // Has to return an array
+      // filter([], function(){}).Array(isArray) === true;
 
-  // Example 8:
-  // Check that original array wasn't altered
+      // Example 7:
+      // Has to return filtered values
+      // filter([1,2,3], function(number, index, originalArray){
+      //    return number > 1;
+      // });
+      // > [2,3]
 
-  // You can use fail(); at the beginning to fail the tests at the beginning.
-  function filter(array, callback, optionalThisObject){
-    if (optionalThisObject){
-      callback = callback.bind(optionalThisObject);
-    }
-    let filteredArray = [];
-    for (var i = 0; i < array.length; i++){
-      if (callback(array[i], i, array)){
-        filteredArray.push(array[i])
-      };
-    }
-    return filteredArray
-  }
+      // Example 8:
+      // Check that original array wasn't altered
 
-  tests({
-    'it should run the callback function array.length times': function() {
-      var timesTheCallbackHasRun = 0;
-      filter([1,2,3], function(){
-        timesTheCallbackHasRun++;
+      // You can use fail(); at the beginning to fail the tests at the beginning.
+      function filter(array, callback, optionalThisObject) {
+        if (optionalThisObject) {
+          callback = callback.bind(optionalThisObject);
+        }
+        let filteredArray = [];
+        for (var i = 0; i < array.length; i++) {
+          if (callback(array[i], i, array)) {
+            rw.push(filteredArray, array[i]);
+          }
+        }
+        return filteredArray;
+      }
+
+      tests({
+        "it should run the callback function array.length times": function() {
+          var timesTheCallbackHasRun = 0;
+          filter([1, 2, 3], function() {
+            timesTheCallbackHasRun++;
+          });
+          eq(timesTheCallbackHasRun, 3);
+        },
+        "it should pass in the i`th` element as the first argument to the callback": function() {
+          filter([1], function(number) {
+            eq(number, 1);
+          });
+        },
+        "it should pass in position i (ith position) as the second argument to the callback": function() {
+          filter([1], function(number, index) {
+            eq(index, 0);
+          });
+        },
+        "it should pass the original array as the third argument of the callback": function() {
+          var testArray = [1, 2, 3];
+          filter(testArray, function(number, index, originalArray) {
+            eq(originalArray, testArray);
+          });
+        },
+        "It should accept an optional this object": function() {
+          filter(
+            [1],
+            function() {
+              eq(this.description, "I should be accessible in the callback");
+            },
+            { description: "I should be accessible in the callback" }
+          );
+        },
+        "It should return an array": function() {
+          let filteredArray = filter([], function(number) {});
+          eq(Array.isArray(filteredArray), true);
+        },
+        "It should return a new array with filtered information that returned true in the callback": function() {
+          let filteredArray = filter([1, 2, 3, 4], function(number) {
+            return number > 3;
+          });
+          eq(Number(filteredArray), 4);
+        },
+        "It should'nt alter the original array": function() {
+          let originalArray = [1, 2, 3];
+          let originalCopy = originalArray;
+          let newArray = filter(originalArray, function(number) {
+            return number > 1;
+          });
+          eq(originalArray.length === originalCopy.length, true);
+        }
       });
-      eq(timesTheCallbackHasRun, 3);
-    },
-    'it should pass in the i`th` element as the first argument to the callback': function() {
-      filter([1], function(number){
-      eq(number ,1);
-      });
-    },
-    'it should pass in position i (ith position) as the second argument to the callback': function(){
-      filter([1], function(number, index){
-        eq(index, 0);
-      });
-    },
-    'it should pass the original array as the third argument of the callback': function(){
-      var testArray = [1, 2, 3];
-      filter(testArray, function(number, index, originalArray){
-        eq(originalArray, testArray);
-      });
-    },
-    'It should accept an optional this object': function(){
-      filter([1], function(){
-        eq(this.description, 'I should be accessible in the callback')
-      }, {description: 'I should be accessible in the callback'})
-    },
-    'It should return an array': function(){
-      let filteredArray = filter([], function(number){});
-      eq(Array.isArray(filteredArray), true);
-    },
-    'It should return a new array with filtered information that returned true in the callback': function(){
-      let filteredArray = filter([1,2,3,4], function(number){
-        return number > 3;
-      });
-      eq(Number(filteredArray), 4);
-    },
-    'It should\'nt alter the original array': function(){
-      let originalArray = [1,2,3];
-      let originalCopy = originalArray;
-      let newArray = filter(originalArray, function(number){
-        return number > 1;
-      });
-      eq(originalArray.length === originalCopy.length, true);
-    }
-  });
-  
-  </script>
-</body>
+    </script>
+  </body>
 </html>

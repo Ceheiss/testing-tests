@@ -1,108 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Every Function Testing</title>
-</head>
-<body>
-  <script src="../simpletest.js"></script>
-  <script>
-    // Array.prototype.every
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Every Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script>
+      // Array.prototype.every
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/every
+      /*
     General description:
     The every() method tests whether all elements in the array pass the test implemented by the provided function. It returns a Boolean value. 
     ----------
     Syntax:
     arr.every(callback(element[, index[, array]])[, thisArg])
     */
-    function every(array, callback, optionalThis){
-      let newCallback = callback;
-      let validIndexArray = Object.keys(array);
-      
-      if(optionalThis){
-        newCallback = newCallback.bind(optionalThis);
-      }
+      function every(array, callback, optionalThis) {
+        let newCallback = callback;
+        let validIndexArray = Object.keys(array);
 
-      if (validIndexArray.length === 0){
+        if (optionalThis) {
+          newCallback = newCallback.bind(optionalThis);
+        }
+
+        if (validIndexArray.length === 0) {
+          return true;
+        }
+
+        for (let i = 0; i < array.length; i++) {
+          // check for unassigned values (holes)
+          if (i in array) {
+            if (!newCallback(array[i], i, array)) {
+              return false;
+            }
+          }
+        }
         return true;
       }
 
-      for(let i = 0; i < array.length; i++){
-        // check for unassigned values (holes)
-        if (i in array){
-          if (!newCallback(array[i], i, array)){
-            return false;
-          }
+      tests({
+        "it should have access to the i'th element each time callback is run": function() {
+          every([1], function(element) {
+            eq(element, 1);
+          });
+        },
+        "it should have access to the index of each element": function() {
+          every([1], function(element, index) {
+            eq(index, 0);
+          });
+        },
+        "it should have access to the original passed array": function() {
+          let originalArray = ["a", "b", "c"];
+          every(originalArray, function(element, index, array) {
+            eq(array, originalArray);
+          });
+        },
+        "it should accept an optional this": function() {
+          every(
+            [1],
+            function() {
+              eq(this.message, "greetings from optional this");
+            },
+            { message: "greetings from optional this" }
+          );
+        },
+        "it should return a boolean value": function() {
+          let isGreaterThanZero = every([1], function(element) {
+            return element > 0;
+          });
+          eq(isGreaterThanZero, true);
+        },
+        "it should check that all the elements in the array suffice the condition": function() {
+          let isGreaterThanZero = every([1, 2, 3], function(element) {
+            return element > 0;
+          });
+          eq(isGreaterThanZero, true);
+
+          let isGreaterThanOne = every([1, 2, 3], function(element) {
+            return element > 1;
+          });
+          eq(isGreaterThanOne, false);
+        },
+        "it should only work with assigned values": function() {
+          let timesCallbackHasRun = 0;
+          let everyValue = every([, , , , 1, , , , 2, , , , 3], function(
+            element
+          ) {
+            timesCallbackHasRun++;
+            return element > 0;
+          });
+          eq(timesCallbackHasRun, 3);
+          eq(everyValue, true);
+        },
+        "it shouldn't mutate the array": function() {
+          let originalArray = [1];
+          every(originalArray, function(element) {
+            return element > 2;
+          });
+          eq(originalArray[0], 1);
+        },
+        "it should return true if provided with an empty array": function() {
+          let emptyArray = every([], function(element) {
+            return element > 0;
+          });
+          eq(emptyArray, true);
         }
-      }
-      return true;
-    }
-
-    tests({
-      'it should have access to the i\'th element each time callback is run':function(){
-        every([1], function(element){
-          eq(element, 1);
-        })
-      },
-      'it should have access to the index of each element':function(){
-        every([1], function(element, index){
-          eq(index, 0);
-        })
-      },
-      'it should have access to the original passed array':function(){
-        let originalArray = ['a','b','c'];
-        every(originalArray, function(element, index, array){
-          eq(array, originalArray);
-        })
-      },
-      'it should accept an optional this':function(){
-        every([1], function(){
-          eq(this.message, "greetings from optional this");
-        }, {message: "greetings from optional this"})
-      },
-      'it should return a boolean value':function(){
-        let isGreaterThanZero = every([1], function(element){
-          return element > 0;
-        })
-        eq(isGreaterThanZero, true);
-      },
-      'it should check that all the elements in the array suffice the condition':function(){
-        let isGreaterThanZero = every([1,2,3], function(element){
-          return element > 0;
-        })
-        eq(isGreaterThanZero, true);
-
-        let isGreaterThanOne = every([1,2,3], function(element){
-          return element > 1;
-        })
-        eq(isGreaterThanOne, false);
-      },
-      'it should only work with assigned values':function(){
-        let timesCallbackHasRun = 0;
-        let everyValue = every([,,,,1,,,,2,,,,3], function(element){
-          timesCallbackHasRun++;
-          return element > 0;
-        })
-        eq(timesCallbackHasRun, 3);
-        eq(everyValue, true);
-      },
-      'it shouldn\'t mutate the array':function(){
-        let originalArray = [1];
-        every(originalArray, function(element){
-          return element > 2;
-        })
-        eq(originalArray[0], 1);
-      },
-      'it should return true if provided with an empty array':function(){
-        let emptyArray = every([], function(element){
-          return element > 0;
-        })
-        eq(emptyArray, true);
-      }
-    })
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>

@@ -1,98 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>FindIndex Function Testing</title>
-</head>
-<body>
-  <script src="../simpletest.js"></script>
-  <script>
-    // Array.prototype.findIndex
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>FindIndex Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script>
+      // Array.prototype.findIndex
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex
+      /*
     General description:
     The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
     ----------
     Syntax:
     arr.findIndex(callback(element[, index[, array]])[, thisArg]) 
     */
-    function findIndex(array, callback, optionalThis){
-      let newCallback = callback;
-      if(optionalThis){
-        newCallback = newCallback.bind(optionalThis);
-      }
-      let indexOfValue;
-      for(let i = 0; i < array.length; i++){
-        if(newCallback(array[i], i, array)){
-          return i;
+      function findIndex(array, callback, optionalThis) {
+        let newCallback = callback;
+        if (optionalThis) {
+          newCallback = newCallback.bind(optionalThis);
         }
+        let indexOfValue;
+        for (let i = 0; i < array.length; i++) {
+          if (newCallback(array[i], i, array)) {
+            return i;
+          }
+        }
+        return -1;
       }
-      return -1
-    };
 
-
-    tests({
-      'it should run the callback, if needed, array.length times': function(){
-        let counter = 0;
-        findIndex([1,2,3,4], function(){
-          counter++;
-        })
-        eq(counter, 4);
-      },
-      'it should have access to the i\'th element each time callback is run':function(){
-        findIndex([1], function(element){
-          eq(element, 1);
-        })
-      },
-      'it should have access to the index of each element':function(){
-        findIndex([1], function(element, index){
-          eq(index, 0);
-        })
-      },
-      'it should have access to the original passed array':function(){
-        let originalArray = ['a','b','c'];
-        findIndex(originalArray, function(element, index, array){
-          eq(array, originalArray);
-        })
-      },
-      'it should accept an optional this':function(){
-        findIndex([1], function(){
-          eq(this.message, "greetings from optional this");
-        }, {message: "greetings from optional this"})
-      },
-      'it should return the index value of the element that passes description':function(){
-        let foundIndex = findIndex(['a','b','c'], function(element){
-          return element === 'c';
-        })
-        eq(foundIndex, 2);
-      },
-      'it should return only the first value that matches':function(){
-        let counter = 0;
-        let foundIndex = findIndex(['a','b','c','d','c','e','c'], function(element){
-          counter++;
-          return element === 'c';
-        })
-        eq(foundIndex, 2);
-        eq(counter, 3);
-      },
-      'it should return -1 if it doesn\'t find the value':function(){
-        let foundIndex = findIndex(['a','b','c'], function(element){
-          return element === 'd';
-        })
-        eq(foundIndex, -1);
-      },
-      'it should run array.times if it returns -1':function(){
-        let counter = 0;
-        let foundIndex = findIndex(['a','b','c'], function(element){
-          counter++;
-          return element === 'd';
-        })
-        eq(foundIndex, -1);
-        eq(counter, 3);
-      }
-    })
-  </script>
-</body>
+      tests({
+        "it should run the callback, if needed, array.length times": function() {
+          let counter = 0;
+          findIndex([1, 2, 3, 4], function() {
+            counter++;
+          });
+          eq(counter, 4);
+        },
+        "it should have access to the i'th element each time callback is run": function() {
+          findIndex([1], function(element) {
+            eq(element, 1);
+          });
+        },
+        "it should have access to the index of each element": function() {
+          findIndex([1], function(element, index) {
+            eq(index, 0);
+          });
+        },
+        "it should have access to the original passed array": function() {
+          let originalArray = ["a", "b", "c"];
+          findIndex(originalArray, function(element, index, array) {
+            eq(array, originalArray);
+          });
+        },
+        "it should accept an optional this": function() {
+          findIndex(
+            [1],
+            function() {
+              eq(this.message, "greetings from optional this");
+            },
+            { message: "greetings from optional this" }
+          );
+        },
+        "it should return the index value of the element that passes description": function() {
+          let foundIndex = findIndex(["a", "b", "c"], function(element) {
+            return element === "c";
+          });
+          eq(foundIndex, 2);
+        },
+        "it should return only the first value that matches": function() {
+          let counter = 0;
+          let foundIndex = findIndex(
+            ["a", "b", "c", "d", "c", "e", "c"],
+            function(element) {
+              counter++;
+              return element === "c";
+            }
+          );
+          eq(foundIndex, 2);
+          eq(counter, 3);
+        },
+        "it should return -1 if it doesn't find the value": function() {
+          let foundIndex = findIndex(["a", "b", "c"], function(element) {
+            return element === "d";
+          });
+          eq(foundIndex, -1);
+        },
+        "it should run array.times if it returns -1": function() {
+          let counter = 0;
+          let foundIndex = findIndex(["a", "b", "c"], function(element) {
+            counter++;
+            return element === "d";
+          });
+          eq(foundIndex, -1);
+          eq(counter, 3);
+        }
+      });
+    </script>
+  </body>
 </html>

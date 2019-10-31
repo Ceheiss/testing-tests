@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Shift Function Testing</title>
-</head>
-<body>
-  <script src="../simpletest.js"></script>\
-  <script src="../rewriteLibrary.js"></script>
-  <script>
-    // Array.prototype.shift
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Shift Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script src="../rewriteLibrary.js"></script>
+    <script>
+      // Array.prototype.shift
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift
+      /*
     Description:
     The shift() method removes the first element from an array and returns that removed element.
     This method changes the length of the array.
@@ -24,77 +24,56 @@
     The removed element from the array; undefined if the array is empty.
     */
 
-    function shift(iterable){
+      function shift(iterable) {
         let returnedValue = iterable[0];
-        reverse(iterable);
-        pop(iterable);
-        reverse(iterable);
+        rw.reverse(iterable);
+        rw.pop(iterable);
+        rw.reverse(iterable);
         return returnedValue;
-    }
+      }
 
-    tests({
-        'it should remove one element of an array': function(){
-            let numberArray = [1,2,3];
-            shift(numberArray);
-            eq(numberArray.length, 2);
+      tests({
+        "it should remove one element of an array": function() {
+          let numberArray = [1, 2, 3];
+          shift(numberArray);
+          eq(numberArray.length, 2);
         },
-        'it should remove the first element of an array': function(){
-            let numberArray = [1,2,3];
-            shift(numberArray);
-            eq(numberArray[0], 2);
+        "it should remove the first element of an array": function() {
+          let numberArray = [1, 2, 3];
+          shift(numberArray);
+          eq(numberArray[0], 2);
         },
-        'it should return the removed element in the array': function(){
-            let numberArray = [1,2,3];
-            let shiftedValue = shift(numberArray);
-            eq(shiftedValue, 1);
+        "it should return the removed element in the array": function() {
+          let numberArray = [1, 2, 3];
+          let shiftedValue = shift(numberArray);
+          eq(shiftedValue, 1);
         },
-        'it should return undefined if the array is empty': function(){
-            let emptyArray = [];
-            let poppedValue = shift(emptyArray);
-            eq(poppedValue, undefined);
+        "it should return undefined if the array is empty": function() {
+          let emptyArray = [];
+          let poppedValue = shift(emptyArray);
+          eq(poppedValue, undefined);
         },
-        'it should work with iterable object': function(){
-            let notAnArray = {0: 'a', 1: 'b', length: 2};
-            let shiftedValue = shift(notAnArray);
-            eq(shiftedValue, 'a');
-            eq(notAnArray.hasOwnProperty(1), false);
+        "it should work with iterable object": function() {
+          let notAnArray = { 0: "a", 1: "b", length: 2 };
+          let shiftedValue = shift(notAnArray);
+          eq(shiftedValue, "a");
+          eq(notAnArray.hasOwnProperty(1), false);
         },
-        'it should update length property of iterable object after pop': function(){
-            let notAnArray = {0: 'a', 1: 'b', length: 2};
-            shift(notAnArray);
-            eq(notAnArray.length, 1);
+        "it should update length property of iterable object after pop": function() {
+          let notAnArray = { 0: "a", 1: "b", length: 2 };
+          shift(notAnArray);
+          eq(notAnArray.length, 1);
         },
-        'it should throw an error if the argument is not an accepted iterable object': function(){
-            let isTypeError = false;
-            try { 
-                shift("not an iterable object");
-            } catch(e) {
-                isTypeError = (e instanceof TypeError);
-            }
-            eq(isTypeError, true);
-        },
-    })
-  </script>
-</body>
+        "it should throw an error if the argument is not an accepted iterable object": function() {
+          let isTypeError = false;
+          try {
+            shift("not an iterable object");
+          } catch (e) {
+            isTypeError = e instanceof TypeError;
+          }
+          eq(isTypeError, true);
+        }
+      });
+    </script>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>reduceRight Function Testing</title>
-</head>
-<body>
-  <script src="../simpletest.js"></script>
-  <script src="../rewriteLibrary.js"></script>
-  <script>
-    // Array.prototype.reduceright
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceright
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>reduceRight Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script src="../rewriteLibrary.js"></script>
+    <script>
+      // Array.prototype.reduceright
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduceright
+      /*
     General description:
     The reduceRight() method applies a function against an accumulator and each value of the array (from right-to-left) to reduce it to a single value.
     ----------
@@ -33,32 +33,40 @@
       initialValue--Optional
         Value to use as accumulator to the first call of the callback. If no initial value is supplied, the last element in the array will be used and skipped. Calling reduce or reduceRight on an empty array without an initial value creates a TypeError.
     */
-    
-    function reduceRight (array, callback, initialValue){
-      array = reverse(array);
-      let resultSoFar = initialValue;
-      for (let i = 0; i < array.length; i++){
-        resultSoFar = callback(resultSoFar, array[i], i, array)
-      }
-      return resultSoFar
-    };
 
-    tests({
-      'If initialValue, callback should run array.length times':function(){
-        let numberOfTimesCallbackHasRun = 0;
-        reduceRight([1], function(){
-          numberOfTimesCallbackHasRun++;
-        }, 0)
-        eq(numberOfTimesCallbackHasRun, 1);
-      },
-      'It reduces the elements in the array starting from the last value':function(){
-        let abcArray = ["a","b","c"];
-        let reduceArray = reduceRight(abcArray, function(accumulator, element){
-          return accumulator += element;
-        }, '')
-        eq(reduceArray, "cba");
-      },
-    })
-  </script>
-</body>
+      function reduceRight(array, callback, initialValue) {
+        array = reverse(array);
+        let resultSoFar = initialValue;
+        for (let i = 0; i < array.length; i++) {
+          resultSoFar = callback(resultSoFar, array[i], i, array);
+        }
+        return resultSoFar;
+      }
+
+      tests({
+        "If initialValue, callback should run array.length times": function() {
+          let numberOfTimesCallbackHasRun = 0;
+          reduceRight(
+            [1],
+            function() {
+              numberOfTimesCallbackHasRun++;
+            },
+            0
+          );
+          eq(numberOfTimesCallbackHasRun, 1);
+        },
+        "It reduces the elements in the array starting from the last value": function() {
+          let abcArray = ["a", "b", "c"];
+          let reduceArray = reduceRight(
+            abcArray,
+            function(accumulator, element) {
+              return (accumulator += element);
+            },
+            ""
+          );
+          eq(reduceArray, "cba");
+        }
+      });
+    </script>
+  </body>
 </html>

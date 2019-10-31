@@ -1,100 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Reverse Function Testing</title>
-</head>
-<body>
-  <script src="../simpletest.js"></script>
-  <script src="../rewriteLibrary.js"></script>
-  <script>
-    // Array.prototype.slice
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScr
-    ipt/Reference/Global_Objects/Array/reverse
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Reverse Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script src="../rewriteLibrary.js"></script>
+    <script>
+      // Array.prototype.slice
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse
+      /*
     Documents: The reverse() method reverses an array in place. The first array element becomes the last,
     and the last array element becomes the first.
 
     it has to reverse arrays and numbered objects (for this it needs a call function);
     it needs to check if the first argument is an object, and if that is the case, check if the last property is length
     */
-    
-    function reverse(iterable){
+
+      function reverse(iterable) {
         let usedToBeObject = false;
-        if((typeof iterable === "object") && (!Array.isArray(iterable))){
-            usedToBeObject = true;
-            iterable = arrayFrom(iterable);
+        if (typeof iterable === "object" && !Array.isArray(iterable)) {
+          usedToBeObject = true;
+          iterable = rw.arrayFrom(iterable);
         }
-        if(Array.isArray(iterable)){
-            let reversedArray = [];
-            for(let i = iterable.length - 1; i > -1; i--){
-                push(reversedArray, iterable[i]);
-            }
-            // Hacky way to mutate the original array
-            for(let i = 0; i < reversedArray.length; i++){
-                iterable.shift();
-                push(iterable, reversedArray[i]);
-            }
-            // Back to object
-            if(usedToBeObject){
-                iterable = arrayToObject(iterable);
-            }
-            return iterable;
+        if (Array.isArray(iterable)) {
+          let reversedArray = [];
+          for (let i = iterable.length - 1; i > -1; i--) {
+            rw.push(reversedArray, iterable[i]);
+          }
+          // Hacky way to mutate the original array
+          for (let i = 0; i < reversedArray.length; i++) {
+            iterable.shift();
+            rw.push(iterable, reversedArray[i]);
+          }
+          // Back to object
+          if (usedToBeObject) {
+            iterable = rw.arrayToObject(iterable);
+          }
+          return iterable;
         } else {
-            throw new TypeError("First argument must be iterable");
+          throw new TypeError("First argument must be iterable");
         }
-    }
+      }
 
-    tests({
-        'it has to reverse the order of elements in an array': function(){
-            let originalArray = ["a","b","c"];
-            let reversedArray = reverse(originalArray);
-            eq(reversedArray, originalArray.reverse());
+      tests({
+        "it has to reverse the order of elements in an array": function() {
+          let originalArray = ["a", "b", "c"];
+          let reversedArray = reverse(originalArray);
+          eq(reversedArray, originalArray.reverse());
         },
-        'it should pass an array as the first argument': function(){
-            let isTypeError = false;
-            try {
-                reverse(23);
-            } catch(e) {
-                isTypeError = (e instanceof TypeError);
-            }
-            eq(isTypeError, true);
+        "it should pass an array as the first argument": function() {
+          let isTypeError = false;
+          try {
+            reverse(23);
+          } catch (e) {
+            isTypeError = e instanceof TypeError;
+          }
+          eq(isTypeError, true);
         },
-        'it should mutate the original array': function(){
-            let originalArray = [1,2,3];
-            let reversedArray = reverse(originalArray);
-            eq(originalArray[2] !== 3, true);
+        "it should mutate the original array": function() {
+          let originalArray = [1, 2, 3];
+          let reversedArray = reverse(originalArray);
+          eq(originalArray[2] !== 3, true);
         },
-        'it should handle an object that has length property': function(){
-            let objectToBeReversed = {0: 'a',1: 'b',2: 'c', length: 3};
-            let reversedArray = reverse(objectToBeReversed);
-            eq(reversedArray[2], 'a');
-            eq(reversedArray.length, 3);
+        "it should handle an object that has length property": function() {
+          let objectToBeReversed = { 0: "a", 1: "b", 2: "c", length: 3 };
+          let reversedArray = reverse(objectToBeReversed);
+          eq(reversedArray[2], "a");
+          eq(reversedArray.length, 3);
         }
-    })
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

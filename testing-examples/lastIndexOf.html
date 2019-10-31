@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>lastIndexOf Function Testing</title>
-</head>
-<body>
-  <script src="../simpletest.js"></script>
-  <script>
-    // Array.prototype.lastIndexOf
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastindexof
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>lastIndexOf Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script>
+      // Array.prototype.lastIndexOf
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/lastindexof
+      /*
     Description:
     The lastIndexOf() method returns the last index at which a given element can be found in the array, 
     or -1 if it is not present. The array is searched backwards, starting at fromIndex.
@@ -31,89 +31,72 @@
 
     Array is searched from back to front.
     */
-    
-    function lastIndexOf(array, searchElement, fromIndex){
-      if(Array.isArray(array)){
-        if (fromIndex === 0) {
+
+      function lastIndexOf(array, searchElement, fromIndex) {
+        if (Array.isArray(array)) {
+          if (fromIndex === 0) {
             return -1;
-        }
-        let startingIndex = array.length -1;
-        if (fromIndex) {
+          }
+          let startingIndex = array.length - 1;
+          if (fromIndex) {
             if (fromIndex > 0) {
-                startingIndex = fromIndex;
+              startingIndex = fromIndex;
             }
-        }
-        for(let i = startingIndex; i > -1; i--) {
+          }
+          for (let i = startingIndex; i > -1; i--) {
             if (array[i] == searchElement) {
-                return i
+              return i;
             }
+          }
+          return -1;
+        } else {
+          throw new TypeError("First argument should be an array");
         }
-        return -1;
-      } else {
-        throw new TypeError('First argument should be an array');
       }
-    };
 
-    tests({
-      'it should return the last index value of the searched element':function(){
-          let findA = lastIndexOf(['a','b','c','a'], 'a');
-          eq(findA, 3);   
-      },
-      'it should return -1 id the element is not found in the array': function(){
-          let notFound = lastIndexOf(['a'],'b');
-          eq(notFound, -1) 
-      },
-      'it should start fromIndex at array.length -1 by default if no value is given': function(){
-          let defaultFromIndex = lastIndexOf(['a', 'b', 'b', 'c', 'b'],'b');
-          eq(defaultFromIndex, 4) 
-      },
-      'it should start searching for the element from the provided index': function(){
-          let skipValues = lastIndexOf(['a','b','a','a','c','a'], 'a', 2);
-          eq(skipValues, 2)
-      },
-      'it should search the whole array if a negative value is provided as fromIndex': function(){
-          let allBeSearched = lastIndexOf(['a','b','a','a','c','a'], 'a', -10);
-          eq(allBeSearched, 5)
-      },
-      'it should return -1 if fromIndex is 0': function(){
-          let allBeSearched = lastIndexOf(['a','b'], 'a', 0);
-          eq(allBeSearched, -1)
-      },
-      'it should search all the array if indexOf is greater than or equal to array.length': function(){
-          let allBeSearched = lastIndexOf(['a','b'], 'a', 13);
-          eq(allBeSearched, 0)
-      },
-      'it should throw an error if first argument is not an array': function(){
-        let isTypeError = false;
-        try {
-          lastIndexOf("string", 2);
-        } catch(e){
-          isTypeError = (e instanceof TypeError);
+      tests({
+        "it should return the last index value of the searched element": function() {
+          let findA = lastIndexOf(["a", "b", "c", "a"], "a");
+          eq(findA, 3);
+        },
+        "it should return -1 id the element is not found in the array": function() {
+          let notFound = lastIndexOf(["a"], "b");
+          eq(notFound, -1);
+        },
+        "it should start fromIndex at array.length -1 by default if no value is given": function() {
+          let defaultFromIndex = lastIndexOf(["a", "b", "b", "c", "b"], "b");
+          eq(defaultFromIndex, 4);
+        },
+        "it should start searching for the element from the provided index": function() {
+          let skipValues = lastIndexOf(["a", "b", "a", "a", "c", "a"], "a", 2);
+          eq(skipValues, 2);
+        },
+        "it should search the whole array if a negative value is provided as fromIndex": function() {
+          let allBeSearched = lastIndexOf(
+            ["a", "b", "a", "a", "c", "a"],
+            "a",
+            -10
+          );
+          eq(allBeSearched, 5);
+        },
+        "it should return -1 if fromIndex is 0": function() {
+          let allBeSearched = lastIndexOf(["a", "b"], "a", 0);
+          eq(allBeSearched, -1);
+        },
+        "it should search all the array if indexOf is greater than or equal to array.length": function() {
+          let allBeSearched = lastIndexOf(["a", "b"], "a", 13);
+          eq(allBeSearched, 0);
+        },
+        "it should throw an error if first argument is not an array": function() {
+          let isTypeError = false;
+          try {
+            lastIndexOf("string", 2);
+          } catch (e) {
+            isTypeError = e instanceof TypeError;
+          }
+          eq(isTypeError, true);
         }
-        eq(isTypeError, true);
-      }
-    })
-  </script>
-</body>
+      });
+    </script>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

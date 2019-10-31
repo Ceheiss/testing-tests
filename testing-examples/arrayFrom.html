@@ -35,14 +35,14 @@
           return transformedArray;
         }
         for (let i = 0; i < iterable.length; i++) {
-          transformedArray.push(iterable[i]);
+          rw.push(transformedArray, iterable[i]);
         }
         // if second parameter is provided
         if (callback) {
           if (optionalThisObject) {
-            return map(transformedArray, callback, optionalThisObject);
+            return rw.map(transformedArray, callback, optionalThisObject);
           }
-          return map(transformedArray, callback);
+          return rw.map(transformedArray, callback);
         }
         return transformedArray;
       }

@@ -1,137 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Map Function Testing</title>
-</head>
-<body>
-  <script src="../tinytest.js"></script>
-  <script>
-  // Here goes all the code for map method
-  // Example 1: Callback should run 3 times.
-  // map([1,2,3], function(){
-  //  console.log('hi'); 
-  // });
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Map Function Testing</title>
+  </head>
+  <body>
+    <script src="../tinytest.js"></script>
+    <script>
+      // Here goes all the code for map method
+      // Example 1: Callback should run 3 times.
+      // map([1,2,3], function(){
+      //  console.log('hi');
+      // });
 
-  // Example 2: Callback has access to ith element.
-  // map([1,2,3], function(number){
-  //  console.log(number); 
-  // });
+      // Example 2: Callback has access to ith element.
+      // map([1,2,3], function(number){
+      //  console.log(number);
+      // });
 
-  // Example 3: Callback has access to index
-  // The index of the current element being processed in the array
-  // map([1,2,3], function(number, index){
-  //  console.log(index);
-  // });
+      // Example 3: Callback has access to index
+      // The index of the current element being processed in the array
+      // map([1,2,3], function(number, index){
+      //  console.log(index);
+      // });
 
-  // Example 4: Callback has access to original array
-  // The index of the current element being processed in the array
-  // map([1,2,3], function(number, index, originalArray){
-  //  console.log(originalArray);
-  // });
-  
-  // Example 5:
-  // Should be able to pass an optional "this" value
-  // map([1,2,3], function(number, index, originalArray){
-  //  console.log(this.message);
-  // }, {message: "This is accessible"});
+      // Example 4: Callback has access to original array
+      // The index of the current element being processed in the array
+      // map([1,2,3], function(number, index, originalArray){
+      //  console.log(originalArray);
+      // });
 
-  // Example 6: Should return a different array
-  // let originalArray = [1,2,3];
-  // let mappedArray = map(originalArray, function(){ });
-  // originalArray !== mappedArray
+      // Example 5:
+      // Should be able to pass an optional "this" value
+      // map([1,2,3], function(number, index, originalArray){
+      //  console.log(this.message);
+      // }, {message: "This is accessible"});
 
-  // Example 7: Should return an array
-  // map([], function(){}).Array(isArray) === true;
+      // Example 6: Should return a different array
+      // let originalArray = [1,2,3];
+      // let mappedArray = map(originalArray, function(){ });
+      // originalArray !== mappedArray
 
-  // Example 8: Should return a modified array
-  // let originalArray = [1,2,3];
-  // let mappedArray = map(originalArray, function(element){
-  //  element * 2; 
-  // });
-  // > [2,4,6]
+      // Example 7: Should return an array
+      // map([], function(){}).Array(isArray) === true;
 
-  // Example 8:
-  // Check that original array wasn't altered
+      // Example 8: Should return a modified array
+      // let originalArray = [1,2,3];
+      // let mappedArray = map(originalArray, function(element){
+      //  element * 2;
+      // });
+      // > [2,4,6]
 
-  // You can use fail(); at the beginning to fail the tests at the beginning.
+      // Example 8:
+      // Check that original array wasn't altered
 
-  // we can check properties in objects with syntax
-  function map(array, callback, optionalThis){
-    let mappedArray = [];
-    let mapCallback = callback;
-    if (optionalThis) {
-      mapCallback = callback.bind(optionalThis);
-    }
-    for(let i = 0; i <  array.length; i++){
-       // propertyName in object; --> name in person;
-       // We use that to skip unassigned properties
-      if (i in array){
-        let mappedValue = mapCallback(array[i], i, array);
-        mappedArray[i] = mappedValue;
+      // You can use fail(); at the beginning to fail the tests at the beginning.
+
+      // we can check properties in objects with syntax
+      function map(array, callback, optionalThis) {
+        let mappedArray = [];
+        let mapCallback = callback;
+        if (optionalThis) {
+          mapCallback = callback.bind(optionalThis);
+        }
+        for (let i = 0; i < array.length; i++) {
+          // propertyName in object; --> name in person;
+          // We use that to skip unassigned properties
+          if (i in array) {
+            let mappedValue = mapCallback(array[i], i, array);
+            mappedArray[i] = mappedValue;
+          }
+        }
+        return mappedArray;
       }
-    }
-    return mappedArray
-  };
 
-  tests({
-    'it should run the callback function array.length times': function() {
-      var timesTheCallbackHasRun = 0;
-      map([1,2,3], function(){
-        timesTheCallbackHasRun++;
+      tests({
+        "it should run the callback function array.length times": function() {
+          var timesTheCallbackHasRun = 0;
+          map([1, 2, 3], function() {
+            timesTheCallbackHasRun++;
+          });
+          eq(timesTheCallbackHasRun, 3);
+        },
+        "it should pass in the i`th` element as the first argument to the callback": function() {
+          map([1], function(number) {
+            eq(number, 1);
+          });
+        },
+        "it should pass in position i (ith position) as the second argument to the callback": function() {
+          map([1], function(number, index) {
+            eq(index, 0);
+          });
+        },
+        "it should pass the original array as the third argument of the callback": function() {
+          let testArray = [1, 2, 3];
+          map(testArray, function(number, index, originalArray) {
+            eq(originalArray, testArray);
+          });
+        },
+        "It should accept an optional this object": function() {
+          map(
+            [1],
+            function() {
+              eq(this.description, "I should be accessible in the callback");
+            },
+            { description: "I should be accessible in the callback" }
+          );
+        },
+        "It should return an array": function() {
+          let mappedArray = map([], function(number) {});
+          eq(Array.isArray(mappedArray), true);
+        },
+        "It should return an array different from original array": function() {
+          let originalArray = [1, 2, 3];
+          let newArray = map(originalArray, function(number) {
+            return number * 2;
+          });
+          eq(originalArray !== newArray, true);
+        },
+        "It should return a new array that has elements that have been transformed by the callback function": function() {
+          let mappedArray = map([4], function(number) {
+            return number * 2;
+          });
+          eq(mappedArray[0], 8);
+        },
+        "It should skip unassigned indexes": function() {
+          let weirdArray = [, 2, 3];
+          let mappedArray = map(weirdArray, function(element) {
+            return element * 2;
+          });
+          eq(0 in mappedArray, false);
+          eq(mappedArray[1], 4);
+        }
       });
-      eq(timesTheCallbackHasRun, 3);
-    },
-    'it should pass in the i`th` element as the first argument to the callback': function() {
-      map([1], function(number){
-      eq(number ,1);
-      });
-    },
-    'it should pass in position i (ith position) as the second argument to the callback': function(){
-      map([1], function(number, index){
-        eq(index, 0);
-      });
-    },
-    'it should pass the original array as the third argument of the callback': function(){
-      let testArray = [1, 2, 3];
-      map(testArray, function(number, index, originalArray){
-        eq(originalArray, testArray);
-      });
-    },
-    'It should accept an optional this object': function(){
-      map([1], function(){
-        eq(this.description, 'I should be accessible in the callback')
-      }, {description: 'I should be accessible in the callback'})
-    },
-    'It should return an array': function(){
-      let mappedArray = map([], function(number){});
-      eq(Array.isArray(mappedArray), true);
-    },
-    'It should return an array different from original array': function(){
-      let originalArray = [1,2,3];
-      let newArray = map(originalArray, function(number){
-        return number * 2;
-      });
-      eq(originalArray !== newArray, true);
-    },
-    'It should return a new array that has elements that have been transformed by the callback function': function(){
-      let mappedArray = map([4], function(number){
-        return number * 2;
-      });
-      eq(mappedArray[0], 8);
-    },
-    'It should skip unassigned indexes': function(){
-      let weirdArray = [,2,3];
-      let mappedArray = map(weirdArray, function(element){
-        return element * 2;
-      })
-      eq(0 in mappedArray, false);
-      eq(mappedArray[1], 4);
-    }
-  });
-
-  </script>  
-</body>
+    </script>
+  </body>
 </html>

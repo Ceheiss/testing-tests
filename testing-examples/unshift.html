@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Unshift Function Testing</title>
-</head>
-<body>
-  <script src="../simpletest.js"></script>
-  <script src="../rewriteLibrary.js"></script>
-  <script>
-    // Array.prototype.unshift
-    // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift
-    /*
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Unshift Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script src="../rewriteLibrary.js"></script>
+    <script>
+      // Array.prototype.unshift
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift
+      /*
     Description:
     The unshift() method adds one or more elements to the 
     beginning of an array and returns the new length of the array.
@@ -27,99 +27,83 @@
         **** The new length property of the object upon which the method was called.
     */
 
-    
-    function unshift(iterable){
-        let nonArrayAcceptableObject = (typeof iterable === 'object') && iterable.length && !Array.isArray(iterable); 
-        let acceptableIterable = Array.isArray(iterable) || nonArrayAcceptableObject;
+      function unshift(iterable) {
+        let nonArrayAcceptableObject =
+          typeof iterable === "object" &&
+          iterable.length &&
+          !Array.isArray(iterable);
+        let acceptableIterable =
+          Array.isArray(iterable) || nonArrayAcceptableObject;
         let passedArguments = [];
-        for(let i = 1; i < arguments.length; i++){
-            push(passedArguments, arguments[i]);
+        for (let i = 1; i < arguments.length; i++) {
+          rw.push(passedArguments, arguments[i]);
         }
-        if (acceptableIterable){
-            // handle if it's not an array;
-            if(nonArrayAcceptableObject){
-                objectUnshift(iterable, ...passedArguments);
-            } else {
-                let iterableLength = iterable.length;
-                let arr = [];
-                for(let i = 0; i < passedArguments.length; i++){
-                    push(arr, passedArguments[i]);
-                }
-                forEach(iterable, function(el){
-                    push(arr, el);
-                });
-                for(let i = 0; i < iterableLength; i++){
-                    pop(iterable);
-                }
-                forEach(arr, function(el){
-                    push(iterable, el);
-                });
+        if (acceptableIterable) {
+          // handle if it's not an array;
+          if (nonArrayAcceptableObject) {
+            rw.objectUnshift(iterable, ...passedArguments);
+          } else {
+            let iterableLength = iterable.length;
+            let arr = [];
+            for (let i = 0; i < passedArguments.length; i++) {
+              rw.push(arr, passedArguments[i]);
             }
-            return iterable.length;
+            rw.forEach(iterable, function(el) {
+              rw.push(arr, el);
+            });
+            for (let i = 0; i < iterableLength; i++) {
+              rw.pop(iterable);
+            }
+            rw.forEach(arr, function(el) {
+              rw.push(iterable, el);
+            });
+          }
+          return iterable.length;
         } else {
-            throw new TypeError("Enter an Array or an Array like Object as first parameter");
+          throw new TypeError(
+            "Enter an Array or an Array like Object as first parameter"
+          );
         }
-    }
+      }
 
-    tests({
-        'it should add the element passed to the start of the array': function(){
-            let numberArray = [1,2,3];
-            unshift(numberArray, 4);
-            eq(numberArray.length, 4);
-            eq(numberArray[3], 3);
+      tests({
+        "it should add the element passed to the start of the array": function() {
+          let numberArray = [1, 2, 3];
+          unshift(numberArray, 4);
+          eq(numberArray.length, 4);
+          eq(numberArray[3], 3);
         },
-        'it should accept multiple values at one': function() {
-            let numberArray = [1,2,3];
-            unshift(numberArray, 4, 5, 6);
+        "it should accept multiple values at one": function() {
+          let numberArray = [1, 2, 3];
+          unshift(numberArray, 4, 5, 6);
 
-            eq(numberArray.length, 6);
-            eq(numberArray[2], 6);
+          eq(numberArray.length, 6);
+          eq(numberArray[2], 6);
         },
-        'it should return the length property of the object on which the method was called': function() {
-            let returnedUnshiftValue = unshift([1, 2, 3], 4, 5, 6);
-            eq(returnedUnshiftValue, 6);
+        "it should return the length property of the object on which the method was called": function() {
+          let returnedUnshiftValue = unshift([1, 2, 3], 4, 5, 6);
+          eq(returnedUnshiftValue, 6);
         },
-        'it can be used if object resembles an array': function() {
-            let notAnArray = {0: 'a', 1: 'b', length: 2};
-            unshift(notAnArray, 'c', 'd', 'f');
-            eq(notAnArray[0], 'c');
+        "it can be used if object resembles an array": function() {
+          let notAnArray = { 0: "a", 1: "b", length: 2 };
+          unshift(notAnArray, "c", "d", "f");
+          eq(notAnArray[0], "c");
         },
-        'it should return the correct length if iterable is not an array': function() {
-            let notAnArray = {0: 'a', 1: 'b', length: 2};
-            push(notAnArray, 'c', 'd', 'e');
-            eq(notAnArray.length, 5);
+        "it should return the correct length if iterable is not an array": function() {
+          let notAnArray = { 0: "a", 1: "b", length: 2 };
+          rw.push(notAnArray, "c", "d", "e");
+          eq(notAnArray.length, 5);
         },
-        'it should throw an error if first argument passed is not an array or object':function(){
-            let isTypeError = false;
-            try {
-                unshift("hello");
-            } catch(e) {
-                isTypeError = (e instanceof TypeError);
-            }
-            eq(isTypeError, true);
-        },
-    })
-  </script>
-</body>
+        "it should throw an error if first argument passed is not an array or object": function() {
+          let isTypeError = false;
+          try {
+            unshift("hello");
+          } catch (e) {
+            isTypeError = e instanceof TypeError;
+          }
+          eq(isTypeError, true);
+        }
+      });
+    </script>
+  </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
