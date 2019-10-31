@@ -1,4 +1,4 @@
-#### Testing tests
+Testing tests
 =======================================
 
 This is a series of testing exercises using the super lightweight Javascript unit testing library: "Tinytest.js" and a modification of TinyTest called "SimpleTest.js" developed in the "Watch and Code" series and altered by myself.
