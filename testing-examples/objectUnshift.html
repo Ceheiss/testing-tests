@@ -46,7 +46,6 @@
         "it can accept multiple values": function() {
           let arrayLikeObject = { 0: "a", 1: "b", length: 2 };
           objectUnshift(arrayLikeObject, "c", "d", "f");
-          console.log(arrayLikeObject);
           eq(arrayLikeObject[0], "c");
         },
         "it should return the correct length if iterable is not an array": function() {

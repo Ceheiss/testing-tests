@@ -1,4 +1,4 @@
-Testing tests
+#### Testing tests
 =======================================
 
 This is a series of testing exercises using the super lightweight Javascript unit testing library: "Tinytest.js" and a modification of TinyTest called "SimpleTest.js" developed in the "Watch and Code" series and altered by myself.
@@ -12,7 +12,10 @@ The first four methods (forEach, filter, map, and reduce) are done following Wat
 
 Finished means it passes all the tests, not perfect code. There are some solutions I think could be better and refactored, and I will in due time.
 
----
+
+I've compiled all of the methods so far in a file called *rewriteLibrary.js*. The library is being used in some of these methods as a way of not repeating myself, and putting the former defined methods to the test.
+
+--------------
 ## To be completed:
 1. Array.prototype.forEach --> finished
 2. Array.prototype.filter --> finished
