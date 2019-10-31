@@ -1,3 +1,19 @@
+/*
+* ==========================================================
+* ===================     reWriteJS     ==================== 
+* ==========================================================
+* Welcome to reWrite library, this is a library were I have
+* rewritten a bunch of Javascript functions from scratch, plus
+* a couple of helper functions that were included.
+* There is no reason why you would use this, but if you do,
+* you use this syntax: 
+* rw.methodOfChoice(parameters)
+* Example:
+* rw.map([1,2,3], function(number){
+    return number + 2;
+  })
+*/
+
 (function(root) {
   const rewritenFunctions = {
 
