@@ -33,19 +33,26 @@
         start
         end
 
-    it should copy one element and paste it in the targets place
-    it should be able to change multiple elements at once
-    it should return the same length of the array
-    it should work on an iterable object
     */
 
       function copyWithin(iterable, target, start, end) {
+        let startingValue = 0;
+        let defaultTarget = 0;
+
+        if (target) defaultTarget = target;
+        if (start) startingValue = start;
+        if (end > iterable.length || !end) end = iterable.length;
+        
+        if (end < 0) end = iterable.length + end;
+        if (start < 0) start = iterable.length + start;
+        if (defaultTarget < 0) defaultTarget = iterable.length + defaultTarget;
+        
         let copiedValues = [];
         for (let i = start; i < end; i++){
           copiedValues.push(iterable[i]);
         }
         for (let i = 0; i < copiedValues.length; i++){
-          iterable[target + i] = copiedValues[i];
+          iterable[defaultTarget + i] = copiedValues[i];
         }
         return iterable
       }
@@ -67,11 +74,19 @@
           let copiedArray = copyWithin(array1, 0, 3, 10);
           eq(copiedArray.length, array1.length);
         },
-        "it should work on an iterable object": function() {
-          fail();
+        "it should return the same length of the array even ifs the end exceeds array.length": function() {
+          let array1 = ['a', 'b', 'c', 'd', 'e'];
+          let copiedArray = copyWithin(array1, 0, 3, 10);
+          eq(copiedArray.length, array1.length);
         },
-        "e": function() {
-          fail();
+        "it should work on an iterable object": function() {
+          let iterableObj = {0: 'a', 1: 'b', length: 2};
+          let copiedObj = copyWithin(iterableObj, 0, 1, 2);
+          eq(copiedObj[0], "b");
+        },
+        "it will be counted from the end if value is negative": function() {
+          let copiedArray = copyWithin([1, 2, 3, 4, 5],-2, -3, -1);
+          eq(copiedArray[3], 3);
         },
       });
     </script>
