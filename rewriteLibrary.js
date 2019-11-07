@@ -16,7 +16,6 @@
 
 (function(root) {
   const rewritenFunctions = {
-
     arrayFrom: function(iterable, callback, optionalThisObject) {
       let transformedArray = [];
       if (typeof iterable === "object" && !iterable.hasOwnProperty(length)) {
