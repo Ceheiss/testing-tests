@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>copyWithin Function Testing</title>
+  </head>
+  <body>
+    <script src="../simpletest.js"></script>
+    <script>
+      // Array.prototype.copyWithin
+      // Link to docs https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin
+      /*
+    Description:
+    The copyWithin() method shallow copies part of an array to another location in the same array and returns it without modifying its length.
+
+    Example: 
+    var array1 = ['a', 'b', 'c', 'd', 'e'];
+    // copy to index 0 the element at index 3
+    console.log(array1.copyWithin(0, 3, 4));
+    // expected output: Array ["d", "b", "c", "d", "e"]
+
+
+    Syntax:
+    arr.copyWithin(target[, start[, end]])
+
+    Return value:
+    The modified array
+    
+    Parameters:
+        target
+        start
+        end
+
+    it should copy one element and paste it in the targets place
+    it should be able to change multiple elements at once
+    it should return the same length of the array
+    it should work on an iterable object
+    */
+
+      function copyWithin(iterable, target, start, end) {
+        let copiedValues = [];
+        for (let i = start; i < end; i++){
+          copiedValues.push(iterable[i]);
+        }
+        for (let i = 0; i < copiedValues.length; i++){
+          iterable[target + i] = copiedValues[i];
+        }
+        return iterable
+      }
+
+      tests({
+        "it should copy one element and paste it in the targets place": function() {
+          let array1 = ['a', 'b', 'c', 'd', 'e'];
+          let copiedArray = copyWithin(array1, 0, 3, 4);
+          eq(copiedArray[0], "d");
+        },
+        "it should be able to change multiple elements at once": function() {
+          let array1 = ['a', 'b', 'c', 'd', 'e'];
+          let copiedArray = copyWithin(array1, 0, 1, 4);
+          eq(copiedArray[0], "b");
+          eq(copiedArray[2], "d");
+        },
+        "it should return the same length of the array": function() {
+          let array1 = ['a', 'b', 'c', 'd', 'e'];
+          let copiedArray = copyWithin(array1, 0, 3, 10);
+          eq(copiedArray.length, array1.length);
+        },
+        "it should work on an iterable object": function() {
+          fail();
+        },
+        "e": function() {
+          fail();
+        },
+      });
+    </script>
+  </body>
+</html>

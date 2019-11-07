@@ -36,9 +36,9 @@ I've compiled all of the methods so far in a file called *rewriteLibrary.js*. Th
 17. Array.prototype.pop --> finished
 18. Array.prototype.shift --> finished
 19. Array.prototype.unshift --> finished
-20. Array.prototype.fill --> in process
+20. Array.prototype.fill --> finished
 21. Array.prototype.reverse --> finished
-22. Array.prototype.copyWithin
+22. Array.prototype.copyWithin --> in process
 23. Array.prototype.sort
 24. Array.prototype.splice
 25. Array.prototype.from --> finished
